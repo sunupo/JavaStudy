@@ -132,13 +132,16 @@ public class BuyBookTest extends TestCase {
 
     @Test
     public void testFastClass(){
+        //1⃣️通过BuyBook.class创建FastClass实例
         FastClass fastClass = FastClass.create(BuyBook.class);
 
         try {
+//            2⃣️创建BuyBook实例（）
 //            BuyBook buyBook = new BuyBook();
             BuyBook buyBook = (BuyBook) fastClass.newInstance(new Class[]{String.class}, new Object[]{"JAVA BOOK"});
+//            3⃣️调用方法1
             fastClass.invoke("sell", new Class[]{int.class}, buyBook,new Object[]{100});
-
+//            3⃣️调用方法2
             FastMethod fastMethod = fastClass.getMethod("sell", new Class[]{int.class});
             fastMethod.invoke(buyBook, new Object[]{300});
         } catch (InvocationTargetException e) {
