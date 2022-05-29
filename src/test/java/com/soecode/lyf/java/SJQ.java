@@ -1,5 +1,8 @@
 package com.soecode.lyf.java;
 
+
+import com.soecode.lyf.service.impl.BookServiceImpl;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,9 +11,10 @@ public class SJQ {
     public static final int paraA=10;
     private static final String paraString="sunjignqin";
     private void myfun(Number a, String b){
-        System.out.println(a+b);
+        System.out.println("123"+a+b);
         new Outer().fun1();
     }
+    int a=10;
 
     public static void main(String[] args) {
         new SJQ().myfun(1,"2");
@@ -84,22 +88,82 @@ class Outer {
             }
         }
     }
-    void fun1(){
+    String fun1(){
         int fun1_i=2;
+        SJQ sjq = new SJQ();
         class Inner2{
             public String publicString = "Inner.publicString";
             String Inner2_fun1(){
                 return out_i + publicString;
             }
             int Inner2_fun2(){
+                System.out.println(fun1_i); //可以访问方法内的非final变量
+//                fun1_i=2;  // 不允许对外界简单类型变量修改。1.没有定义为final类型的fun_i不能修改。2.定义为final的其它变量肯定不能改。
+                sjq.a = 100;  // 可以对外界引用类型的属性进行修改。
+//                sjq=new SJQ(); // 不允许对外界引用类型变量修改。
                 return fun1_i + out_i ;
             }
         }
+        Inner2 inner2 = new Inner2();
+        String a =inner2.Inner2_fun2()+inner2.Inner2_fun1();
+        return a;
     }
+
+    static class PublicInner{
+    }
+    abstract class AbstractInner{
+         public abstract void fun1();
+    }
+
+    private static Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    };
+
+    class MyClassRunnable implements Runnable{
+        @Override
+        public void run() {
+
+        }
+    }
+
+    public PublicInner outer_fun1(int paraA){
+//        todo 匿名内部类（也是局部内部类）
+        AbstractInner abstractInner = new AbstractInner() {  //匿名内部类的父类是abstract，必须实现父类的抽象方法。也就是说匿名内部类不能是抽象的。
+            @Override
+            public void fun1() {
+
+            }
+        };
+        return new PublicInner(){
+            int a=100;
+            int A;
+            public void setA(int a) {
+                this.a = a;
+//                this.A = paraA++;// 错误，只能修改final修饰的基本类型局部变量
+                this.A = paraA; // 正确，可以访问非final修饰的基本类型局部变量
+            }
+        };
+//        return new Inner(){  // 匿名内部类
+////            public Inner(){  //1、匿名内部类不能有构造方法(因为没有自己的名字，^_^)
+////            }
+////            static int b=100;  // 2、匿名内部类不能定义静态成员
+////            public static void fun(){}
+//            int a=100;
+//            public int getA(){
+//                return a++;
+//            }
+//        };
+    }
+
     static class Inner3{
         public String publicString = "Inner3.publicString";
-
     }
+    class ttt{}
+
+    ttt t = new Outer.ttt();
 
     Other anonymousOther = new Other() {
         public String publicString = "Anonymous Other.publicString";
@@ -113,15 +177,46 @@ class Outer {
         return Other;
     }
 
+    BookServiceImpl bookService = new BookServiceImpl();
+
     public static void main(String[] args) {
         System.out.println(new Outer().new Inner());
         System.out.println(new Outer.Inner3());
         System.out.println("\t");
         System.out.println(new Outer().getAnonymousOther());
         System.out.println("\t");
+        System.out.println(new Outer().fun1());
+        Location mapLocation = new MapLocation(){};
+//        funnn((UserLocation)mapLocation);
+        System.out.println(null instanceof Object);
+
+
+
+
+    }
+    static class MyUserLocation implements UserLocation{
 
     }
 
+    public static void funnn(UserLocation location){
+        System.out.println(location.a);
+
+    }
+
+}
+
+interface Location{
+    int a=10;
+
+}
+
+interface MapLocation extends Location{
+    int a=11;
+
+}
+
+interface UserLocation extends Location{
+int a=12;
 }
 
 class Other {

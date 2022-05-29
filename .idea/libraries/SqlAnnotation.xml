@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SqlAnnotation">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/SqlAnnotation.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
