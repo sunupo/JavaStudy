@@ -1,6 +1,5 @@
 package com.java.sjq.tt;
 import com.java.sjq.annotation.SQLString;
-import com.java.sjq.superclassStatic.P;
 import lombok.Getter;
 
 public class AnnoCreateFile {
