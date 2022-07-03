@@ -2,6 +2,7 @@ package com.soecode.lyf.web;
 
 import java.util.List;
 
+import com.soecode.lyf.annotation.NotControllerResponseAdvice;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
+	@NotControllerResponseAdvice
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	private String list(Model model) {
 		List<Book> list = bookService.getList();
