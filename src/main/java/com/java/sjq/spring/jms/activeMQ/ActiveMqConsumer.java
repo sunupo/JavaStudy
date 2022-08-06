@@ -53,6 +53,7 @@ public class ActiveMqConsumer {
             }
         });
         // 关闭资源
+        System.in.read();
         consumer.close();
         session.close();
         connection.close();
