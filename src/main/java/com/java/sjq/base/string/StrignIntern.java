@@ -26,34 +26,38 @@ public class StrignIntern {
         String s4 = "11";
         System.out.println(s3 == s4);
     }
+
     @Test
-    public void testintern(){
+    public void testintern() {
         String s = new String("1");
         s.intern();
         String s2 = "1";
         System.out.println(s == s2);
 
 //        String s3 = new String("1") + new String("1");
-        String s3 = "1"+ "1";
+        String s3 = "1" + "1";
         s3.intern();
         String s4 = "11";
         System.out.println(s3 == s4);
     }
+
     @Test
-    public void testintern2(){
+    public void testintern2() {
         String s1 = "abc";
         String s2 = "abc";
         System.out.println(s1 == s2); //true
     }
+
     @Test
-    public void case4(){
+    public void case4() {
         String s1 = "abc" + new String("def");
         s1.intern();
         String s2 = "abcdef";
         System.out.println(s1 == s2); //true
     }
+
     @Test
-    public void case4_2(){
+    public void case4_2() {
         String s1 = "abc" + new String("def"); // ▲ s1的value属性值为 "abcdef",  "abcdef"不会放入常量池，
         String s2 = "abcdef";
         String s3 = s1.intern();
@@ -61,19 +65,20 @@ public class StrignIntern {
         System.out.println(s1 == s3); //false
         System.out.println(s2 == s3); //true
     }
+
     @Test
-    public void case6(){
-        // case3
+    public void case6() {
         String s1 = new String(new char[]{'a', 'b', 'c'});  // new String(char value[])这个构造器，这个构造器只会把参数value[]数组复制到一个new char[newLength]中（源码可以看到），然后返回这个new char[newLength]数组的地址给String对象的value。
-//        s1.intern();
+        s1.intern();
         System.out.println(s1 == s1.intern()); // true
 
         String s2 = new String("def");
-//        s2.intern();
-        System.out.println(s1 == s2.intern()); // true
+        s2.intern();
+        System.out.println(s1 == s2.intern()); // false
     }
+
     @Test
-    public void case7(){
+    public void case7() {
         String s1 = new StringBuilder("ja").append("va").toString(); // 注意！jvm编译时会预先自动加载字面量"java"放入常量池，
         s1.intern();
         System.out.println(s1 == s1.intern()); //false
@@ -88,5 +93,41 @@ public class StrignIntern {
         System.out.println("java" == "java".intern()); //true
         System.out.println("aj" == "aj".intern()); //true
 
+    }
+
+    @Test
+    public void case8_1() {
+        final String s1 = "a";
+        final String s2 = "b";
+        String s3 = "ab";
+        String s4 = s1 + s2;
+        System.out.println(s3 == s4);//true
+    }
+
+    @Test
+    public void case8_2() {
+        String s1 = "javaEEhadoop";
+        String s2 = "javaEE";
+        String s3 = s2 + "hadoop";
+        System.out.println(s1 == s3);//false
+
+        final String s4 = "javaEE";//s4:常量
+        String s5 = s4 + "hadoop";
+        System.out.println(s1 == s5);//true
+    }
+
+    @Test
+    public void case9() {
+        String s1 = new String("ja");
+    }
+
+    @Test
+    public void case10() {
+        String s1 = "va";
+    }
+
+    @Test
+    public void case11() {
+        String s1 = new String(new char[]{'j', 'a', 'v', 'a'});
     }
 }
