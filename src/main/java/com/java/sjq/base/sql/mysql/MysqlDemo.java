@@ -11,13 +11,13 @@ public class MysqlDemo {
 
     // MySQL 8.0 以上版本 - JDBC 驱动名及数据库 URL
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://11.2.37.18:3306/ssm?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/ssm?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 //    static final String DB_URL = "jdbc:mysql://11.2.37.18:3306/ssm?useSSL=false&serverTimezone=UTC";
 //    static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/ssm?useSSL=false";
 
 
     // 数据库的用户名与密码，需要根据自己的设置s
-    static final String USER = "sunjingqin";
+    static final String USER = "root";
     static final String PASS = "123456";
 
     public static void main(String[] args) {

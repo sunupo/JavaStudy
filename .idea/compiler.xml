@@ -11,9 +11,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath>
-          <entry name="$PROJECT_DIR$/libs/SqlAnnotation.jar" />
-        </processorPath>
         <module name="ssm" />
       </profile>
     </annotationProcessing>

@@ -1,53 +1,76 @@
 package com.soecode.lyf.entity;
 
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
 /**
  * 图书实体
  */
-public class Book {
+public class Book implements HttpSessionBindingListener {
 
-	private long bookId;// 图书ID
+    private long bookId;// 图书ID
 
-	private String name;// 图书名称
+    private String name;// 图书名称
 
-	private int number;// 馆藏数量
+    private int number;// 馆藏数量
 
-	public Book() {
-	}
+    private boolean enough;
 
-	public Book(long bookId, String name, int number) {
-		this.bookId = bookId;
-		this.name = name;
-		this.number = number;
-	}
+    public boolean isEnough() {
+        return enough;
+    }
 
-	public long getBookId() {
-		return bookId;
-	}
+    public void setEnough(boolean enough) {
+        this.enough = enough;
+    }
 
-	public void setBookId(long bookId) {
-		this.bookId = bookId;
-	}
+    public Book() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Book(long bookId, String name, int number) {
+        this.bookId = bookId;
+        this.name = name;
+        this.number = number;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public long getBookId() {
+        return bookId;
+    }
 
-	public int getNumber() {
-		return number;
-	}
+    public void setBookId(long bookId) {
+        this.bookId = bookId;
+    }
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String toString() {
-		return "Book [bookId=" + bookId + ", name=" + name + ", number=" + number + "]";
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public int getNumber() {
+        return number;
+    }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return "Book [bookId=" + bookId + ", name=" + name + ", number=" + number + "]";
+    }
+
+    @Override
+    public void valueBound(HttpSessionBindingEvent event) {
+        System.out.println("book valueBound:\t" + event.getName() + ":" + event.getValue());
+    }
+
+    @Override
+    public void valueUnbound(HttpSessionBindingEvent event) {
+        System.out.println("book valueUnbound: \t" + event.getName() + ":" + event.getValue());
+
+    }
 }

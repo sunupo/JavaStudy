@@ -17,5 +17,12 @@
       <jdbc-url>jdbc:mysql://11.2.37.18:3306/ssm?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="dockerMysql" uuid="992017c8-2a3d-449c-a398-1a0de97fe0ab">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/ssm</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
