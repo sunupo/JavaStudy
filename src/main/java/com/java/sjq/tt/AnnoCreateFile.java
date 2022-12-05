@@ -1,14 +1,14 @@
 package com.java.sjq.tt;
-import com.java.sjq.annotation.SQLString;
-import lombok.Getter;
+//import com.java.sjq.annotation.SQLString;
+//import lombok.Getter;
 
 public class AnnoCreateFile {
-    @SQLString(name="yw")
-    String filed;
-    @SQLString(name="yaow", value=1)
-    String name;
-    @Getter
-    String age;
+//    @SQLString(name="yw")
+//    String filed;
+//    @SQLString(name="yaow", value=1)
+//    String name;
+//    @Getter
+//    String age;
 
     /**
      * @author www.yaoxiaowen.com

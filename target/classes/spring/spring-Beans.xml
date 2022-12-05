@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.w3cspring" />
+
+    <bean id="student" class="com.w3cspring.annotationconfig.AutowireAnnotation.Student" scope="prototype">
+        <property name="name" value="xml name"/>
+        <property name="age" value="-1"/>
+    </bean>
+
+
+    <!-- Definition for student bean -->
+    <bean id="student2" class="com.w3cspring.annotationconfig.RequiredAnnotation.Student" scope="prototype">
+        <property name="name" value="Zara"/>
+        <property name="age" value="11"/>
+        <!-- try without passing age and check the result -->
+        <!-- property name="age"  value="11"-->
+    </bean>
+
+    <bean id="customBeforeAdvice" class="com.w3cspring.annotationconfig.SpringEvent.CustomBeforeAdvice"/>
+    <bean id="customAspect" class="com.w3cspring.annotationconfig.SpringEvent.CustomAspect"/>
+    <aop:config>
+        <aop:pointcut id="myPointCut" expression="execution(* com.w3cspring.annotationconfig.SpringEvent.CustomEventPublisher.customPublish(..))"/>
+                <aop:advisor advice-ref="customBeforeAdvice" pointcut-ref="myPointCut"/>
+        <aop:aspect ref="customAspect">
+            <aop:around method="around" pointcut-ref="myPointCut"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
