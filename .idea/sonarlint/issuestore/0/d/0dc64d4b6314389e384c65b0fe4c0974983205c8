@@ -1,0 +1,30 @@
+
+J
+java:S1604"(Make this anonymous inner class a lambda(‚ÛÛÍÿÿÿÿÿ8¡º‡ØÏ0
+J
+java:S1604"(Make this anonymous inner class a lambda(Ÿï×Üúÿÿÿÿ8¤º‡ØÏ0
+u
+java:S1104"SMake thread1 a static final constant or non-public and provide accessors if needed.(‚ÛÛÍÿÿÿÿÿ8´º‡ØÏ0
+u
+java:S1104"SMake thread2 a static final constant or non-public and provide accessors if needed.(Ÿï×Üúÿÿÿÿ8µº‡ØÏ0
+o
+java:S1104"SMake thread3 a static final constant or non-public and provide accessors if needed.(­¸u8µº‡ØÏ0
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‹şÈ£ÿÿÿÿÿ8Ãº‡ØÏ0
+_
+java:S2094"BRemove this empty class, write its code or make it an "interface".(™µ²8»‡ØÏ0
+L
+java:S3985"/Remove this unused private "StaticInner" class.(™µ²8»‡ØÏ0
+d
+java:S2094"BRemove this empty class, write its code or make it an "interface".(”º³×úÿÿÿÿ8‘»‡ØÏ0
+K
+java:S3985")Remove this unused private "Inner" class.(”º³×úÿÿÿÿ8‘»‡ØÏ0
+d
+java:S2094	"BRemove this empty class, write its code or make it an "interface".(¸­Œ¹ûÿÿÿÿ8£»‡ØÏ0
+d
+java:S2094"BRemove this empty class, write its code or make it an "interface".(î«Âíúÿÿÿÿ8¥»‡ØÏ0
+d
+java:S2094"BRemove this empty class, write its code or make it an "interface".(ÑÊâÿşÿÿÿÿ8¦»‡ØÏ0
+
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(“–ış8º»‡ØÏ0
+
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(“–ış8Ã»‡ØÏ0

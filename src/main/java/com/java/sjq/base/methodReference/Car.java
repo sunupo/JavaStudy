@@ -35,11 +35,11 @@ public class Car {
 //        静态方法引用：它的语法是Class::static_method，实例如下：
         cars.forEach( Car::collide );  // static
 
-//        特定类的任意对象的方法引用：它的语法是Class::method实例如下：
+//        （对象方法引用）特定类的任意对象的方法引用：它的语法是Class::method实例如下：
         Consumer<Car> consumer = Car::repair;
         cars.forEach( Car::repair );  // non-static
 
-//        特定对象的方法引用：它的语法是instance::method实例如下：
+//        (实例方法引用)特定对象的方法引用：它的语法是instance::method实例如下：
         final Car police = Car.create( Car::new );
         cars.forEach( police::follow );
 

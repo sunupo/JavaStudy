@@ -1,0 +1,21 @@
+
+[	java:S112J"FDefine and throw a dedicated exception instead of using a generic one.(É¯—›
+K
+java:S1191"5Use classes from the Java API instead of Sun classes.(éª‚€
+Q	java:S125"<This block of commented-out lines of code should be removed.(ô‘¥¹
+N	java:S106"9Replace this use of System.out or System.err by a logger.(½÷Æ—
+S	java:S106)"9Replace this use of System.out or System.err by a logger.(İ¯©òúÿÿÿÿ
+I
+java:S1611*"4Remove the parentheses around the "method" parameter(‹÷ÄA
+V	java:S125,"<This block of commented-out lines of code should be removed.(Åß‚íıÿÿÿÿ
+N	java:S1062"9Replace this use of System.out or System.err by a logger.(ÑÆœö
+N	java:S106>"9Replace this use of System.out or System.err by a logger.(°¼ø‰
+N	java:S106A"9Replace this use of System.out or System.err by a logger.(Ï÷¯‚
+}
+java:S1128"bRemove this unused import 'com.w3cspring.annotationconfig.AutowireAnnotation.SpringConfiguration'.(Ü¬İàùÿÿÿÿ
+F
+java:S1128"+Remove this unused import 'org.junit.Test'.(ùøèøÿÿÿÿ
+B
+java:S1128",Remove this unused import 'sun.misc.Unsafe'.(éª‚€
+J
+java:S1128"4Remove this unused import 'java.net.URLClassLoader'.(Ï†°
