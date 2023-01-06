@@ -1,4 +1,4 @@
-# [java的成员变量(全局变量)到底存在堆里还是方法区里](https://www.jianshu.com/p/24e09e1d9dbd?ivk_sa=1024320u)
+                                                                # [java的成员变量(全局变量)到底存在堆里还是方法区里](https://www.jianshu.com/p/24e09e1d9dbd?ivk_sa=1024320u)
 
 ## 结论
 - `局部变量`。如果是基本类型，会把值直接存储在栈；如果是引用类型，比如`String s = new String("william");`会把其对象存储在堆，而把这个对象的引用（指针）存储在栈。

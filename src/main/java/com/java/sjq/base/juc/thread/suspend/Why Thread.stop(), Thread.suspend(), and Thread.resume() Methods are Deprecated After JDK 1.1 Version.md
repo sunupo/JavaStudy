@@ -1,0 +1,1 @@
+[Why Thread.stop(), Thread.suspend(), and Thread.resume() Methods are Deprecated After JDK 1.1 Version?](https://www.geeksforgeeks.org/why-thread-stop-thread-suspend-and-thread-resume-methods-are-deprecated-after-jdk-1-1-version/)

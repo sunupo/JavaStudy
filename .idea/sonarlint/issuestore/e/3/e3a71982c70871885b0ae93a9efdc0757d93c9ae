@@ -1,13 +1,0 @@
-
-k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³•—üÿÿÿÿ
-K
-java:S1191"5Use classes from the Java API instead of Sun classes.(éª‚€
-a
-java:S2259"DA "NullPointerException" could be thrown; "unsafe" is nullable here.(¬Ÿ´8‘¦Ã•Î0
-S	java:S106"9Replace this use of System.out or System.err by a logger.(…ßº±ÿÿÿÿÿ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(üµäéøÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(ŠæñÙ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(òıÅ¸
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(ãË®ùÿÿÿÿ8™¦Ã•Î0
-B
-java:S3011",This accessibility update should be removed.(˜ÂÓ˜

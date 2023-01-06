@@ -1,6 +1,9 @@
 package com.java.sjq.base.methodHandle;
 
+import sun.misc.Lock;
+
 import java.lang.invoke.MethodHandles;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
     public static int value = 123;
@@ -27,6 +30,7 @@ public class Main {
 
     public static void main(String[] args) {
         new Main();
+        ReentrantLock a= new ReentrantLock();
 
     }
 
