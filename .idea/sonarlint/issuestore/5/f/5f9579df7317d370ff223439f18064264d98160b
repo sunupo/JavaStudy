@@ -1,0 +1,21 @@
+
+o
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÿõ‘–
+K
+java:S1854"5Remove this useless assignment to local variable "b".(¸Á‚ì
+L
+java:S1854"6Remove this useless assignment to local variable "b3".(ÜÐ‡è
+<
+java:S1481"&Remove this unused "b" local variable.(¸Á‚ì
+N	java:S106"9Replace this use of System.out or System.err by a logger.(‹ù˜š
+;
+java:S2116"%Use "Arrays.toString(array)" instead.(‹ù˜š
+t
+java:S2142"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+V	java:S125"<This block of commented-out lines of code should be removed.(¢Ûß´ýÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(ÐÆÝŠÿÿÿÿÿ
+=
+java:S1481"'Remove this unused "b3" local variable.(ÜÐ‡è
+P	java:S125"<This block of commented-out lines of code should be removed.(àÕ*
+K
+java:S1128"0Remove this unused import 'java.nio.ByteBuffer'.(¿¢×±úÿÿÿÿ

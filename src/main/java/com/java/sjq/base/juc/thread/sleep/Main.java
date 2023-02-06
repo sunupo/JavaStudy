@@ -1,5 +1,13 @@
 package com.java.sjq.base.juc.thread.sleep;
 
+import redis.clients.jedis.Jedis;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicStampedReference;
+
+import static com.java.sjq.base.superclassStatic.P.a;
+
 /**
  * 情况1：先睡眠后打断，则直接打断睡眠，并且清除停止状态值，使之变成false：
  * 情况2：先打断后睡眠，则直接不睡眠：
@@ -12,6 +20,26 @@ public class Main {
             thread.start();
             Thread.sleep(10);
             thread.interrupt();
+
+            //Connecting to Redis server on localhost
+            Jedis jedis = new Jedis("localhost");
+            System.out.println("Connection to server sucessfully");
+            AtomicStampedReference atomicStampedReference;
+            //check whether server is running or not
+            jedis.set("name", "sunjingqin", "XX","EX", 1000 );
+            jedis.set("name", "sunjingqin2", "XX","EX", 1000 );
+            jedis.keys("*").stream().forEach((item)->{
+                System.out.println(item);
+                System.out.println(jedis.get(item));
+            });
+            System.out.println(""+jedis.ttl("name"));
+            System.out.println(jedis.get("name"));
+            System.out.println("Server is running: "+jedis.ping());
+
+            int[] _int  = {1, 2, 9};
+            List ints = Arrays.asList(_int);
+            System.out.println(((int[]) (ints.get(0)))[2]);
+            System.out.println(ints.size());
         }catch (InterruptedException e){
             System.out.println("main catch");
             e.printStackTrace();

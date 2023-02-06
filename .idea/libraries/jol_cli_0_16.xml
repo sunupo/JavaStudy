@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jol-cli-0.16">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/jol-cli-0.16.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

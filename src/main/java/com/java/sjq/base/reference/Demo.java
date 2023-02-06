@@ -1,6 +1,8 @@
 package com.java.sjq.base.reference;
 
+import java.lang.ref.PhantomReference;
 import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,6 +21,10 @@ public class Demo {
         System.out.println("weak2: " + optional.map(Object::toString));
 
         byte[] b3 = new byte[1024*1024*10];
+
+//        DirectByteBuffer directByteBuffer;
+//        ByteBuffer
+//        PhantomReference phantomReference;
 
     }
 }

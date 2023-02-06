@@ -175,6 +175,16 @@
 			<version>5.14.0</version>
 		</dependency>
 
+		<!--	Java利用 ClassLayout 查看对象头	-->
+		<!-- https://mvnrepository.com/artifact/org.openjdk.jol/jol-core -->
+		<dependency>
+			<groupId>org.openjdk.jol</groupId>
+			<artifactId>jol-core</artifactId>
+			<version>0.16</version>
+<!--			<scope>provided</scope>-->
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<finalName>ssm</finalName>

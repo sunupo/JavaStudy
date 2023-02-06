@@ -1,0 +1,21 @@
+
+t
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(½ØÛÃÿÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Å’ÿÔ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(†¬Æ”
+S	java:S106"9Replace this use of System.out or System.err by a logger.(Ô£×œûÿÿÿÿ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(²äí”
+M	java:S106"9Replace this use of System.out or System.err by a logger.(Òò­L
+N	java:S106"9Replace this use of System.out or System.err by a logger.(£Ø˜Š
+U	java:S106"9Replace this use of System.out or System.err by a logger.(¼«Õ‹8“ÓòþØ0
+>
+java:S1905"(Remove this unnecessary cast to "float".(¼«Õ‹
+>
+java:S1905"(Remove this unnecessary cast to "float".(¼«Õ‹
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(¢‡±¨úÿÿÿÿ8”ÓòþØ0
+:
+java:S2129"Remove this "Float" constructor(¢‡±¨úÿÿÿÿ
+C
+java:S1905"(Remove this unnecessary cast to "float".(¢‡±¨úÿÿÿÿ
+Y
+java:S1128"7Remove this unused import 'java.nio.channels.FileLock'.(ÎåÛ†ùÿÿÿÿ8£ýòþØ0

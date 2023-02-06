@@ -15,9 +15,6 @@ public class Main {
         long offset = unsafe.objectFieldOffset(_age);
         Main main = new Main();
         unsafe.getAndSetInt(main, offset, 20); //unsafe.putOrderedInt(main, offset, 20);
-        AtomicInteger i;
-        i.lazySet();
-        CyclicBarrier
         System.out.println(unsafe.getInt(main, offset));
         System.out.println(unsafe.getIntVolatile(main, offset));
         System.out.println(main.age);
