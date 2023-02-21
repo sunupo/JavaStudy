@@ -1,0 +1,21 @@
+
+f
+java:S1104"PMake next a static final constant or non-public and provide accessors if needed.(šÈÃ¤
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(×âµÿøÿÿÿÿ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(‡ºÑ
+t
+java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(¥­öùÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(ËÈ¢®ûÿÿÿÿ
+S	java:S106!"9Replace this use of System.out or System.err by a logger.(Ö¨†¸ùÿÿÿÿ
+S	java:S106""9Replace this use of System.out or System.err by a logger.(±ô‚šûÿÿÿÿ
+S	java:S106*"9Replace this use of System.out or System.err by a logger.(ÚÌŒ—ûÿÿÿÿ
+N	java:S106/"9Replace this use of System.out or System.err by a logger.(è˜Õ
+N	java:S1064"9Replace this use of System.out or System.err by a logger.(èß¿€
+S	java:S1065"9Replace this use of System.out or System.err by a logger.(­é‹°şÿÿÿÿ
+N	java:S106<"9Replace this use of System.out or System.err by a logger.(‹¨ÑÜ
+Z	java:S106="9Replace this use of System.out or System.err by a logger.(Ùñ¬øÿÿÿÿ8¥ßòä0
+C
+java:S1068"-Remove this unused "memberVar" private field.(ß²í
+C
+java:S1068	"-Remove this unused "staticVar" private field.(«ŞõÄ

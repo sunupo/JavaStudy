@@ -184,6 +184,15 @@
 <!--			<scope>provided</scope>-->
 		</dependency>
 
+		<!--	查看系统信息	-->
+		<!-- https://mvnrepository.com/artifact/org.fusesource/sigar -->
+		<dependency>
+			<groupId>org.fusesource</groupId>
+			<artifactId>sigar</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+
+
 
 	</dependencies>
 	<build>

@@ -50,7 +50,7 @@ public class StrignIntern {
 
     @Test
     public void case4() {
-        String s1 = "abc" + new String("def");
+        String s1 = "abc" + new String("def"); // 不会在常量池生成 abcdef
         s1.intern();
         String s2 = "abcdef";
         System.out.println(s1 == s2); //true
@@ -129,5 +129,25 @@ public class StrignIntern {
     @Test
     public void case11() {
         String s1 = new String(new char[]{'j', 'a', 'v', 'a'});
+    }
+
+    /**
+     * s3.intern();             //因为常量池中不存在"11"，
+     * https://blog.csdn.net/tianyuzui6/article/details/124417267
+     */
+    @Test
+    public void case990(){
+      //
+//        String s3 = new String("1") + new String("1"); //常量池生成一个"1"，堆生成一个"11"
+        String s3 = new String(new char[]{'1', '1'});
+        //s3指向堆中"11"
+        //中间还有2个匿名的new String("1")暂不讨论
+        s3.intern();             //因为常量池中不存在"11"，
+        //jdk6会将堆中"11"复制到常量池中，
+        //jdk7则将堆中"11"的引用添加到常量池中，
+        //此时s3仍指向堆中"11"
+        String s4 = "11";        //因为常量池中已存在"11"或其引用，s4指向常量池中"11"
+        System.out.println(s3==s4);  //jdk6中，s4指向常量池中"11"，s3指向堆中"11"，false
+        //jdk7中，s4指向常量池中指向堆中"11"的引用，true
     }
 }

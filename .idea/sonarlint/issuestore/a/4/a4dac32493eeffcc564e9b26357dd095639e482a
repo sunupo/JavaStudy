@@ -1,0 +1,25 @@
+
+`	java:S1121"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ
+Q
+java:S4973
+"<Strings and Boxed types should be compared using "equals()".(ØÎÇ
+N	java:S106	"9Replace this use of System.out or System.err by a logger.(Áß‡Ü
+M	java:S106
+"9Replace this use of System.out or System.err by a logger.(ØÎÇ
+K
+java:S1854"5Remove this useless assignment to local variable "y".(¹ÆáÜ
+K
+java:S1854"5Remove this useless assignment to local variable "t".(®­‹ì
+`
+java:S1124"EReorder the modifiers to comply with the Java Language Specification.(ë¯Šÿÿÿÿÿ
+<
+java:S1481"&Remove this unused "t" local variable.(®­‹ì
+<
+java:S1481"&Remove this unused "s" local variable.(ã¥Äƒ
+A
+java:S1481"&Remove this unused "x" local variable.(¾„ëüÿÿÿÿ
+<
+java:S1481"&Remove this unused "y" local variable.(¹ÆáÜ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(™ÂÎ§ıÿÿÿÿ
+t
+java:S2142/"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€

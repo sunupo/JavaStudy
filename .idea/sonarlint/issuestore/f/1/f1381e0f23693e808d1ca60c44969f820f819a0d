@@ -1,0 +1,13 @@
+
+Q	java:S125	"<This block of commented-out lines of code should be removed.(ê—Ò³
+V	java:S125"<This block of commented-out lines of code should be removed.(¤êºýÿÿÿÿ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(·±šÊ
+L
+java:S6437 "6Revoke and change this password, as it is compromised.(»¥ÏÉ
+S	java:S106#"9Replace this use of System.out or System.err by a logger.(ÿï¼ìûÿÿÿÿ
+N	java:S1061"9Replace this use of System.out or System.err by a logger.(¹ßÅ¤
+N	java:S1062"9Replace this use of System.out or System.err by a logger.(óê’–
+N	java:S1063"9Replace this use of System.out or System.err by a logger.(ÔÜ¿‚
+M	java:S1064"9Replace this use of System.out or System.err by a logger.(°•Þ
+>	java:S108D")Either remove or fill this block of code.(â•¼Ý
+S	java:S106L"9Replace this use of System.out or System.err by a logger.(ƒœ½Ýùÿÿÿÿ

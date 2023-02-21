@@ -64,7 +64,7 @@ public class BookController {
             System.out.println("line" + line);
         }
     }
-    @RequestMapping(value = "/getIP", method = RequestMethod.GET)
+    @RequestMapping(value = "/getIP")
     @ResponseBody
     private String getIP(HttpServletRequest request) throws IOException {
         System.out.println(request.getRemoteAddr());
