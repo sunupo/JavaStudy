@@ -1,27 +1,0 @@
-
-b
-java:S1192"GDefine a constant instead of duplicating this literal "daniel" 3 times.(ýŽÎ£ùÿÿÿÿ
-‚
-java:S1130"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(œû¿Ø
-Q	java:S125"<This block of commented-out lines of code should be removed.(Ž„Öš
-V	java:S125"<This block of commented-out lines of code should be removed.(ýŽÎ£ùÿÿÿÿ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(êë”áøÿÿÿÿ
-Q	java:S125"<This block of commented-out lines of code should be removed.(ïÝŸ÷
-G
-java:S16024",Remove useless curly braces around statement(¹“Ž°ýÿÿÿÿ
-V	java:S1259"<This block of commented-out lines of code should be removed.(¹³¸ùÿÿÿÿ
-6
-java:S1659R" Declare "m2" on a separate line.(ûÛ„ñ
-6
-java:S1659S" Declare "m1" on a separate line.(éç…¡
-_
-java:S1128"IRemove this unused import 'javafx.collections.transformation.SortedList'.( ‡ä¢
-J
-java:S1128"4Remove this unused import 'java.io.FileInputStream'.(˜³ÉÓ
-U
-java:S1128":Remove this unused import 'java.io.FileNotFoundException'.(·î™ùÿÿÿÿ
-J
-java:S1128"5Remove this unused import 'java.io.FileOutputStream'.(˜«ªg
-Z
-java:S1128
-"DRemove this unused import 'java.util.concurrent.ThreadPoolExecutor'.(¦ÿöÊ
