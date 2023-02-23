@@ -29,9 +29,10 @@ public class MethodHandleTest{
         System.out.println("mh1's type: " + mh1.type());
         mh1.invokeExact(new MethodHandleTest(), "mh1");
 
-        MethodHandle mh2 = mh1.bindTo(new MethodHandleTest());
+        MethodHandle mh2 = mh1.bindTo(new MethodHandleTest()); // 要绑定到目标 mh1 的第一个参数的值为 new MethodHandleTest()
         System.out.println("mh2's type: " + mh2.type());
-        mh2.invokeExact("mh2");
+        mh2.invokeExact("mh2"); // 因为绑定到了mh1，所以这里比mh1少一个参数
+        System.out.println();
 
         MethodHandle mh3 = l.findStatic(MethodHandleTest.class, "c", MethodType.methodType(int.class, String.class, String.class));
         System.out.println("mh3's type: " + mh3.type());
