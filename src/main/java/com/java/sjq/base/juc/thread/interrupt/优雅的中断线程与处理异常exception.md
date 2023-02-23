@@ -183,6 +183,33 @@ Thread类中提供了一个setUncaughtExceptionHandler方法，用来处理捕�
 
 当我们在调用future.get()来获取结果的时候，异常也会被封装到ExecutionException，我们可以直接获取到。
 
+### 2.2.4 重写线程组 ThreadGroup 的public void uncaughtException(Thread t, Throwable e) 方法
+```java
+ThreadGroup tg = new ThreadGroup("thread group"){
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                System.err.printf("thread name: %s, error message %s; %n", t.getName(), e.getMessage());
+            }
+        };
+        Thread t = new Thread(tg, ()->{
+            while (true){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println(100);
+            }
+        },"thread 1");
+        t.start();
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        t.interrupt();
+```
 ## 3 线程池中使用ThreadLocal一定要注意清理
 
 我们知道ThreadLocal是Thread中的本地变量，如果我们在线程的运行过程中用到了ThreadLocal，那么当线程被回收之后再次执行其他的任务的时候就会读取到之前被设置的变量，从而产生未知的问题。
