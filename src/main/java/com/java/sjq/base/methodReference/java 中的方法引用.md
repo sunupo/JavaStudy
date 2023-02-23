@@ -1,3 +1,5 @@
+[Method References (The Java™ Tutorials > Learning the Java Language > Classes and Objects)](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html)
+
 ### 文章目录
 
 -   [前言](#_5)
