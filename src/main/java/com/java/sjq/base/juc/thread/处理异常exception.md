@@ -1,11 +1,4 @@
-# 一、[如何优雅地关闭一个线程](https://mp.weixin.qq.com/s/Yfr0sIWjBYd7oMU6GzRZtg)
-
-如何关闭比线程 a
-
-1. 在其他线程调用 `a.interrupt`。
-2. a 线程中用 `InterruptedException`，`Thread.interrupted()` 或者 `Thread.currentThread().isInterrupted()` 来处理。
-
-# 二、[线程池 — 停止线程池中线程、正确处理线程池中线程的异常](https://blog.csdn.net/weixin_48655626/article/details/109250330)
+# 一、[线程池 — 停止线程池中线程、正确处理线程池中线程的异常](https://blog.csdn.net/weixin_48655626/article/details/109250330)
 
 
 ## 2.1 提交给线程池的线程要是可以被中断的
