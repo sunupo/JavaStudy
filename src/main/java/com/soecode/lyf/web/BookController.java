@@ -124,6 +124,28 @@ public class BookController {
         session = Optional.ofNullable(request.getSession(true));
         session.ifPresent((s) -> System.out.println("再次创建:" + s.getId()));  // 已有session，再次创建不会生成新的session
         return "testSession";
+        /**
+         * 以下是第一次打开网页和接着刷新网页的输出。
+         *
+         * 新建:FA3C3B6467BDFEE969369380842993D4
+         * book valueBound:	bind-math-book:Book [bookId=2, name=FA3C3B6467BDFEE969369380842993D4, number=12]
+         * HttpSessionAttributeListener	attributeAdded:	bind-math-bookBook [bookId=2, name=FA3C3B6467BDFEE969369380842993D4, number=12]
+         * appoint valueBound:	bind-appointment:Appointment [bookId=2, studentId=3, appointTime=Fri Feb 24 16:13:55 CST 2023]
+         * HttpSessionAttributeListener	attributeAdded:	bind-appointmentAppointment [bookId=2, studentId=3, appointTime=Fri Feb 24 16:13:55 CST 2023]
+         * 再次创建:FA3C3B6467BDFEE969369380842993D4
+         * CustomEventListenerServletRequestHandledEvent: url=[/ssm_war_exploded2/book/testSession]; client=[0:0:0:0:0:0:0:1]; method=[GET]; servlet=[mvc-dispatcher]; session=[FA3C3B6467BDFEE969369380842993D4]; user=[null]; time=[11ms]; status=[OK]
+         *
+         *
+         * --------
+         * 已存在:	FA3C3B6467BDFEE969369380842993D4
+         * book valueBound:	bind-math-book:Book [bookId=3, name=FA3C3, number=12]
+         * book valueUnbound: 	bind-math-book:null
+         * HttpSessionAttributeListener	attributeReplaced:	bind-math-bookBook [bookId=3, name=FA3C3, number=12]
+         * appoint valueUnbound:	bind-appointment:Appointment [bookId=2, studentId=3, appointTime=Fri Feb 24 16:13:55 CST 2023]
+         * HttpSessionAttributeListener	attributeRemoved:	bind-appointmentAppointment [bookId=2, studentId=3, appointTime=Fri Feb 24 16:13:55 CST 2023]
+         * 再次创建:FA3C3B6467BDFEE969369380842993D4
+         * CustomEventListenerServletRequestHandledEvent: url=[/ssm_war_exploded2/book/testSession]; client=[0:0:0:0:0:0:0:1]; method=[GET]; servlet=[mvc-dispatcher]; session=[FA3C3B6467BDFEE969369380842993D4]; user=[null]; time=[8ms]; status=[OK]
+         */
     }
 
     @RequestMapping(value = "/testSession2", method = RequestMethod.GET)

@@ -13,18 +13,18 @@ public class SSMAttributeListener implements HttpSessionAttributeListener {
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
 
-        System.out.println("attributeAdded:\t" + event.getName()+ event.getValue());
+        System.out.println("HttpSessionAttributeListener\tattributeAdded:\t" + event.getName()+ event.getValue());
     }
 
     @Override
     public void attributeRemoved(HttpSessionBindingEvent event) {
-        System.out.println("attributeRemoved:\t" + event.getName()+ event.getValue());
+        System.out.println("HttpSessionAttributeListener\tattributeRemoved:\t" + event.getName()+ event.getValue());
 
     }
 
     @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
-        System.out.println("attributeReplaced:\t" + event.getName()+ event.getValue());
+        System.out.println("HttpSessionAttributeListener\tattributeReplaced:\t" + event.getName()+ event.getValue());
 
     }
 }
