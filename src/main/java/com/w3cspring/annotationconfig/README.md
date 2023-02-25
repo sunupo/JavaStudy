@@ -1,3 +1,4 @@
+> [Field injection is not recommended – Spring IOC - Marc Nuri](https://blog.marcnuri.com/field-injection-is-not-recommended)
 # 1 [避免使用基于字段 field 的自动注入](https://mp.weixin.qq.com/s/WjBNd5CpW_LY6KQt37YW9w)
 ```java
 public class UserServiceImpl implents UserService{
