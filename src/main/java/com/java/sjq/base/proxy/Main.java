@@ -21,13 +21,14 @@ public class Main {
 
     @Test
     public void testJDKProxy() throws IOException {
-        UserServiceImpl userServiceImpl = new UserServiceImpl();
+        UserService userServiceImpl = new UserServiceImpl();
         UserServiceInvocationHandler handler = new UserServiceInvocationHandler(userServiceImpl);
         UserService instance = (UserService) handler.getInstance();
-        instance.add(1);  // todo 栈溢出
-        byte[] bytes = ProxyGenerator.generateProxyClass("$Proxy0", new Class[]{userServiceImpl.getClass()});
+        instance.add(1);
 
-        FileOutputStream os = new FileOutputStream("Proxy0.class");
+        
+        byte[] bytes = ProxyGenerator.generateProxyClass("$Proxy0", new Class[]{userServiceImpl.getClass()});
+        FileOutputStream os = new FileOutputStream("src/main/java/com/java/sjq/base/proxy/Proxy0.class");
         os.write(bytes);
         os.close();
         Arrays.stream(userServiceImpl.getClass().getInterfaces()).forEach(i -> {
@@ -52,13 +53,13 @@ public class Main {
         userService.add(100);
         testCglibProxy2();
     }
-
+@Test
     public void testCglibProxy2() {
-//        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "./");
+        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "./src/main/java/com/java/sjq/base/proxy/");
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(UserServiceImpl.class);
         enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
-            System.out.println("" + obj.getClass() + method.getName() + args + proxy.getSignature());
+            System.out.println("" + obj.getClass() +"\t"+ method.getName() +"\t"+ Arrays.toString(args) +"\t"+ proxy.getSignature());
 
             System.out.println("事务开始......" + method.getName());
             Object o1 = proxy.invokeSuper(obj, args);
@@ -70,32 +71,4 @@ public class Main {
     }
 
 
-}
-
-abstract class ABClass{
-    public ABClass(int a) {
-    }
-}
-
-class Test3 extends ABClass{
-
-    /**
-     * Constructs a new {@code Proxy} instance from a subclass
-     * (typically, a dynamic proxy class) with the specified value
-     * for its invocation handler.
-     *
-     * @param h the invocation handler for this proxy instance
-     * @throws NullPointerException if the given invocation handler, {@code h},
-     *                              is {@code null}.
-     */
-    protected Test3(InvocationHandler h) {
-        super(1);
-    }
-
-    public void test0() {
-        test();
-    }
-    public void test() {
-        System.out.println(Reflection.getCallerClass(-1));
-    }
 }
