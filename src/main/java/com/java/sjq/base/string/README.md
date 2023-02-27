@@ -221,7 +221,7 @@ System.out.println(s1 == s1.intern()); // true
 
 String s2 = new String("def");
 s2.intern();
-System.out.println(s1 == s2.intern()); // false
+System.out.println(s2 == s2.intern()); // false
 ```
 ### **内存分析**
 第一行String s1 = new String(new char[]{‘a’, ‘b’, ‘c’})：
