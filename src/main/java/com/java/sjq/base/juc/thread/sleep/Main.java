@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-import static com.java.sjq.base.superclassStatic.P.a;
 
 /**
  * 情况1：先睡眠后打断，则直接打断睡眠，并且清除停止状态值，使之变成false：
