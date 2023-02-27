@@ -3,10 +3,7 @@ package com.soecode.lyf.web;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -18,11 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.soecode.lyf.dto.AppointExecution;
 import com.soecode.lyf.dto.Result;
@@ -31,6 +24,7 @@ import com.soecode.lyf.enums.AppointStateEnum;
 import com.soecode.lyf.exception.NoNumberException;
 import com.soecode.lyf.exception.RepeatAppointException;
 import com.soecode.lyf.service.BookService;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -54,15 +48,17 @@ public class BookController {
     }
     @RequestMapping(value = "/post/detail/{bookId}", method = RequestMethod.GET)
     @ResponseBody
-    private void postDetail(@PathVariable("bookId") Long bookId, HttpServletRequest request) throws IOException {
+    private void postDetail(@PathVariable(value = "bookId") Long bookId, HttpServletRequest request,
+                            @RequestParam(value="bookName",required=true) String name) throws IOException {
 
-        System.out.println("bookId"+ bookId);
+        System.out.println("bookId"+ bookId +"\t bookName" + name);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
         String line = "";
         while ((line = bufferedReader.readLine()) != null) {
 
             System.out.println("line" + line);
         }
+        if (bookId==-1) throw new RepeatAppointException("dsds");
     }
     @RequestMapping(value = "/getIP")
     @ResponseBody
@@ -223,6 +219,34 @@ public class BookController {
             execution = new AppointExecution(bookId, AppointStateEnum.INNER_ERROR);
         }
         return new Result<AppointExecution>(true, execution);
+    }
+
+    /**
+     * http://localhost:8080/ssm_war_exploded2/book/testControllerAdvice1?book.bookId=1&book.name=namebb&appointment.bookId=2
+     * @param book
+     * @param appointment
+     * @param model
+     */
+    @RequestMapping(value = "/testControllerAdvice1")
+    @ResponseBody
+    private void testControllerAdvice1(@ModelAttribute("book")Book book, @ModelAttribute("appointment")Appointment appointment, Model model){
+        System.out.println("Book appointment"+book+appointment);
+        Map<String, Object> map = model.asMap();
+        Set<String> keySet = map.keySet();
+        Iterator<String> iterator = keySet.iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            Object value = map.get(key);
+            System.out.println(key + ">>>>>" + value);
+        }
+    }
+    @RequestMapping(value = "/testControllerAdvice2/{fileSize}")
+    @ResponseBody
+    private int testControllerAdvice( @PathVariable("fileSize") Integer fileSize){
+        if(fileSize>100){
+            throw new MaxUploadSizeExceededException(fileSize);
+        }
+        return fileSize;
     }
 
 }
