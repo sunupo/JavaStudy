@@ -6,7 +6,7 @@
               username="root"
               password="123456"
               driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/laf"
+              url="jdbc:mysql://localhost:3306/mybatis"
               maxTotal="8"
               maxIdle="4"/>
 </Context>
