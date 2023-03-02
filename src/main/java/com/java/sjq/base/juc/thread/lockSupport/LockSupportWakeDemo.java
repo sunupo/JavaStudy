@@ -1,4 +1,4 @@
-package com.java.sjq.base.juc.aqs;
+package com.java.sjq.base.juc.thread.lockSupport;
 
 import org.slf4j.Logger;
 
