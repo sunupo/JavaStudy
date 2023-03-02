@@ -1,2 +1,2 @@
-com.java.sjq.base.spi.AudiCar
-#com.java.sjq.base.spi.BenZCar
+AudiCar=com.java.sjq.base.spi.AudiCar
+BenZCar=com.java.sjq.base.spi.BenZCar

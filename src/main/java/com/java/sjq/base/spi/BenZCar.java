@@ -1,7 +1,8 @@
 package com.java.sjq.base.spi;
 
-public class AudiCar {
+public class BenZCar implements ICar{
+    @Override
     public String getName() {
-        return "Audi Car";
+        return "BenZ Car";
     }
 }

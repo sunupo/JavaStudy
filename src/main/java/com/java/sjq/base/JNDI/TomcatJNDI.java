@@ -3,31 +3,30 @@ package com.java.sjq.base.JNDI;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import java.rmi.registry.LocateRegistry;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
-public class TOmcatJNDI {
+public class TomcatJNDI {
 
-   public static void runTomcatJNDI(String[] args){
+   public static void runTomcatJNDI(String name /*jndi/user*/, int  id){
       //
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             Context ctx=new InitialContext();
-            Object datasourceRef=ctx.lookup("java:comp/env/jndi/user"); //引用数据源
-            DataSource ds=(DataSource)datasourceRef;
+            Context datasourceRef=(Context)ctx.lookup("java:comp/env/"); //引用数据源
+            DataSource ds=(DataSource)datasourceRef.lookup(name);
             conn=ds.getConnection();
             String sql = "select * from user where id = ?";
             ps = conn.prepareStatement(sql);
             ps.setString(1, "1");
             rs = ps.executeQuery();
             while(rs.next()){
-                System.out.println("person name is "+rs.getString("name"));
+                System.out.println("user id is "+rs.getString("id"));
+                System.out.println("user name is "+rs.getString("username"));
             }
             ctx.close();
         } catch(Exception e) {
