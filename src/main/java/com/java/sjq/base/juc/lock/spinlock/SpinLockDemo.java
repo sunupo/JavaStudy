@@ -7,16 +7,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
-class SpinLockTest {
+class SpinLock {
     /**
      * 持有锁的线程，null表示锁未被线程持有
      */
     private AtomicReference<Thread> ref = new AtomicReference<>();
     public void lock(){
         Thread currentThread = Thread.currentThread();
+        int attemptCount=1;
         while(!ref.compareAndSet(null, currentThread)){
             //当ref为null的时候compareAndSet返回true，反之为false
             //通过循环不断的自旋判断锁是否被其他线程持有
+            System.out.println(currentThread.getId()+":\t"+attemptCount);
+            ++attemptCount;
         }
     }
     public void unLock() {
@@ -30,21 +33,27 @@ class SpinLockTest {
 
 
 //自旋锁测试
-public class SpinLockTestTest {
+public class SpinLockDemo {
     static int count = 0;
 
     @Test
     public void spinLockTest() throws InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
-        CountDownLatch countDownLatch = new CountDownLatch(100);
-        SpinLockTest spinLockTest2 = new SpinLockTest();
-        for (int i = 0; i < 100; i++) {
+        int num = 3;
+        ExecutorService executorService = Executors.newFixedThreadPool(num);
+        CountDownLatch countDownLatch = new CountDownLatch(num);
+        SpinLock spinLock = new SpinLock();
+        for (int i = 0; i < num; i++) {
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    spinLockTest2.lock();
+                    spinLock.lock();
                     ++count;
-                    spinLockTest2.unLock();
+                    try {
+                        Thread.sleep(100*num);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    spinLock.unLock();
                     countDownLatch.countDown();
                 }
             });
