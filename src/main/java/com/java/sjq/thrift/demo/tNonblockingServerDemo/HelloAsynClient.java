@@ -24,6 +24,7 @@ public class HelloAsynClient {
             TProtocolFactory tprotocol = new TBinaryProtocol.Factory();
             HelloWorldTService.AsyncClient asyncClient = new HelloWorldTService.AsyncClient(tprotocol, clientManager,
                     transport);
+
             System.out.println("Client start .....");
             CountDownLatch latch = new CountDownLatch(1);
             AsyncMethodCallback callBack = new AsynCallback(latch);
@@ -37,24 +38,16 @@ public class HelloAsynClient {
         }
         System.out.println("startClient end.");
     }
-    public class AsynCallback implements AsyncMethodCallback<sayHello_call> {
+    public class AsynCallback implements AsyncMethodCallback<String> {
         private CountDownLatch latch;
         public AsynCallback(CountDownLatch latch) {
             this.latch = latch;
         }
         @Override
-        public void onComplete(sayHello_call response) {
+        public void onComplete(String response) {
             System.out.println("onComplete");
-            try {
-                // Thread.sleep(1000L * 1);
-                System.out.println("AsynCall result =:" + response.getResult().toString());
-            } catch (TException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
+                System.out.println("AsynCall result =:" + response);
                 latch.countDown();
-            }
         }
         @Override
         public void onError(Exception exception) {

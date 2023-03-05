@@ -1,4 +1,4 @@
-package com.java.sjq.thrift.demo.tSimpleServerDemo;
+package com.java.sjq.thrift.demo.tNonblockingServerDemo;
 
 import com.java.sjq.thrift.demo.HelloWorldTService;
 import org.apache.thrift.TConfiguration;
@@ -8,6 +8,8 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+import org.apache.thrift.transport.layered.TFramedTransport;
+
 public class HelloClient {
     public static final String SERVER_IP = "localhost";
     public static final int SERVER_PORT = 8090;
@@ -15,7 +17,7 @@ public class HelloClient {
     public void startClient(String userName, Integer age) {
         TTransport transport = null;
         try {
-            transport = new TSocket(new TConfiguration(),SERVER_IP, SERVER_PORT, TIMEOUT);
+            transport = new TFramedTransport(new TSocket(new TConfiguration(),SERVER_IP, SERVER_PORT, TIMEOUT));
             // 协议要和服务端一致
             TProtocol protocol = new TBinaryProtocol(transport);
             // TProtocol protocol = new TCompactProtocol(transport);
@@ -23,7 +25,7 @@ public class HelloClient {
             HelloWorldTService.Client client = new HelloWorldTService.Client(protocol);
             transport.open();
             String result = client.sayHello(userName, age);
-            System.out.println("Thrify client result =: " + result);
+            System.out.println("Thrift client result =: " + result);
         } catch (TTransportException e) {
             e.printStackTrace();
         } catch (TException e) {

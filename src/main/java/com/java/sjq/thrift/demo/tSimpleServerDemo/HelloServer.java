@@ -1,10 +1,9 @@
-package com.java.sjq.thrift.demo;
+package com.java.sjq.thrift.demo.tSimpleServerDemo;
 
+import com.java.sjq.thrift.demo.HelloWorldImpl;
+import com.java.sjq.thrift.demo.HelloWorldTService;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TCompactProtocol;
-import org.apache.thrift.protocol.TJSONProtocol;
-import org.apache.thrift.protocol.TSimpleJSONProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -14,7 +13,7 @@ public class HelloServer {
         try {
             System.out.println("HelloWorld TSimpleServer start ....");
             TProcessor tprocessor = new HelloWorldTService.Processor<HelloWorldTService.Iface>(new HelloWorldImpl());
-            TServerSocket serverTransport = new TServerSocket(SERVER_PORT);
+            TServerSocket serverTransport = new TServerSocket(SERVER_PORT);  // transport
             TServer.Args tArgs = new TServer.Args(serverTransport);
             tArgs.processor(tprocessor);
             tArgs.protocolFactory(new TBinaryProtocol.Factory());

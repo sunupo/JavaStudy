@@ -1,11 +1,14 @@
-package com.java.sjq.thrift.demo.tNonblockingServerDemo;
+package com.java.sjq.thrift.demo.tHsHaServerDemo;
 
 import com.java.sjq.thrift.demo.HelloWorldImpl;
 import com.java.sjq.thrift.demo.HelloWorldTService;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.server.THsHaServer;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
+import org.apache.thrift.transport.TNonblockingServerSocket;
+import org.apache.thrift.transport.TNonblockingServerTransport;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.layered.TFramedTransport;
 
@@ -14,8 +17,8 @@ public class HelloServer {
     public void startServer() {
         try {
             System.out.println("HelloWorld TSimpleServer start ....");
-            TServerSocket serverTransport = new TServerSocket(SERVER_PORT);  // transport
-            TServer.Args tArgs = new TServer.Args(serverTransport);
+            TNonblockingServerTransport serverTransport = new TNonblockingServerSocket(SERVER_PORT);  // TNonblockingServerSocket 继承抽象类 TNonblockingServerTransport
+            THsHaServer.Args tArgs = new THsHaServer.Args(serverTransport);
             tArgs.transportFactory(new TFramedTransport.Factory());
 
 
@@ -26,8 +29,10 @@ public class HelloServer {
             // tArgs.protocolFactory(new TCompactProtocol.Factory());
             // tArgs.protocolFactory(new TJSONProtocol.Factory());
 
+            tArgs.transportFactory(new TFramedTransport.Factory());
 
-            TServer server = new TSimpleServer(tArgs);
+
+            TServer server = new THsHaServer(tArgs);
             server.serve();
         } catch (Exception e) {
             System.out.println("Server start error!!!");

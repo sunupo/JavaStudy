@@ -1,13 +1,20 @@
-package com.java.sjq.thrift.demo;
+package com.java.sjq.thrift.demo.tSimpleServerDemo;
 
+import com.java.sjq.thrift.demo.HelloWorldTService;
+import org.apache.thrift.TConfiguration;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TCompactProtocol;
-import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+
+/**
+ * 通过 ip port 定义 transport，并打开 transport
+ * 通过transport 构造  protocol
+ * 通过 protocol 定义 client
+ * 通过client调用方法。
+ */
 public class HelloClient {
     public static final String SERVER_IP = "localhost";
     public static final int SERVER_PORT = 8090;
@@ -15,7 +22,7 @@ public class HelloClient {
     public void startClient(String userName, Integer age) {
         TTransport transport = null;
         try {
-            transport = new TSocket(SERVER_IP, SERVER_PORT, TIMEOUT);
+            transport = new TSocket(new TConfiguration(),SERVER_IP, SERVER_PORT, TIMEOUT);
             // 协议要和服务端一致
             TProtocol protocol = new TBinaryProtocol(transport);
             // TProtocol protocol = new TCompactProtocol(transport);
@@ -23,7 +30,7 @@ public class HelloClient {
             HelloWorldTService.Client client = new HelloWorldTService.Client(protocol);
             transport.open();
             String result = client.sayHello(userName, age);
-            System.out.println("Thrify client result =: " + result);
+            System.out.println("Thrift client result =: " + result);
         } catch (TTransportException e) {
             e.printStackTrace();
         } catch (TException e) {
