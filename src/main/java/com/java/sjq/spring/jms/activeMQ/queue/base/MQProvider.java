@@ -40,14 +40,18 @@ public class MQProvider {
         MessageProducer producer = session.createProducer(ningning);
         // 创建消息对象封装消息
         TextMessage message = new ActiveMQTextMessage();
-        message.setText("发送点对点消息");
+        for(int i = 0; i < 10; i++) {
+            Thread.sleep(1000);
+            message.setText("发送点对点消息"+i);
+            // 发送消息
+            producer.send(message);
 
-        // 发送消息
-        producer.send(message);
-        // 关闭资源
-        producer.close();
-        session.close();
-        connection.close();
+        }
+
+//               // 关闭资源
+//        producer.close();
+//        session.close();
+//        connection.close();
 
     }
 }
