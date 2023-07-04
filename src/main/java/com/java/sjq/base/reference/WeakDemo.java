@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Demo {
+public class WeakDemo {
     public static void main(String[] args) {
         byte[] b = new byte[1024*1024*10];
         WeakReference<Byte[]> weakReference = new WeakReference<Byte[]>(new Byte[1024*1024*5]);
