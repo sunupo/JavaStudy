@@ -2,7 +2,7 @@ package com.java.sjq.dataStructure;
 
 import org.junit.Test;
 
-public class Main {
+public class Main0054 {
     public static void main(String[] args){
       //
         Integer a = 1;

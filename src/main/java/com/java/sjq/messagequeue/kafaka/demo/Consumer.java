@@ -1,4 +1,4 @@
-package com.java.sjq.messagequeue.kafaka.subscribeMultiTopics;
+package com.java.sjq.messagequeue.kafaka.demo;
 
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -9,8 +9,8 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import java.time.Duration;
 import java.util.*;
 
-import static com.java.sjq.messagequeue.kafaka.subscribeMultiTopics.ProducerFastStart.TOPIC1;
-import static com.java.sjq.messagequeue.kafaka.subscribeMultiTopics.ProducerFastStart.TOPIC2;
+import static com.java.sjq.messagequeue.kafaka.demo.Producer.TOPIC1;
+import static com.java.sjq.messagequeue.kafaka.demo.Producer.TOPIC2;
 
 /**
  * 消息消费者
@@ -41,7 +41,7 @@ public class Consumer {
          */
 
         while (true){
-            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(10000));
             for (ConsumerRecord<String, String> record : records) {
                 System.out.println("record:\t"+record);
                 System.out.println(record.value());

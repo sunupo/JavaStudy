@@ -10,8 +10,8 @@ import org.junit.Test;
 import javax.jms.*;
 
 
-public class ActiveMqProviderConsumer {
-    public static final String MESSAGE = "Session.AUTO_ACKNOWLEDGE 异常消息测试";
+public class ActiveMqProviderConsumerClientACK {
+    public static final String MESSAGE = "Session.CLIENT_ACKNOWLEDGE 异常消息测试";
 
     @Before
     public void sendMessage() throws Exception{

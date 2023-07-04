@@ -29,7 +29,8 @@
     <bean id="customAspect" class="com.w3cspring.annotationconfig.SpringEvent.CustomAspect"/>
     <aop:config>
         <aop:pointcut id="myPointCut" expression="execution(* com.w3cspring.annotationconfig.SpringEvent.CustomEventPublisher.customPublish(..))"/>
-                <aop:advisor advice-ref="customBeforeAdvice" pointcut-ref="myPointCut"/>
+
+        <aop:advisor advice-ref="customBeforeAdvice" pointcut-ref="myPointCut"/>
         <aop:aspect ref="customAspect">
             <aop:around method="around" pointcut-ref="myPointCut"/>
         </aop:aspect>

@@ -18,8 +18,7 @@ import static com.java.sjq.messagequeue.kafaka.multiConsumerGroup.Producer.TOPIC
  * 消息消费者
  */
 public class Consumer2OfGroup1 {
-
-    private static final String GROUP_2 = "group2";
+    private static final String GROUP_1 = "group1";
 
     public static void main(String[] args) {
 
@@ -29,10 +28,11 @@ public class Consumer2OfGroup1 {
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");
         //设置分组
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_2);
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_1);
 
         //创建消费者
         KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(properties);
+        consumer.commitSync();
         //订阅主题
         Collection<String> topics= new ArrayList<>();
         topics.add(TOPIC1);

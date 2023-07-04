@@ -7,12 +7,8 @@ import org.junit.Test;
 
 import javax.jms.*;
 
-/**
- * Consumer Session.CLIENT_ACKNOWLEDGE 手动回复 ack 机制
- * 抛出异常，consumer 会重新接收到出错的消息。
- */
-public class ActiveMqConsumer2 {
-    public static final String MESSAGE = "Session.AUTO_ACKNOWLEDGE 异常消息测试";
+public class ActiveMqConsumer3 {
+    public static final String MESSAGE = "Session.CLIENT_ACKNOWLEDGE 异常消息测试";
 
     /*
      * 模式: 点对点
@@ -42,7 +38,7 @@ public class ActiveMqConsumer2 {
                 try {
                     String text = msg.getText();
                     System.out.println("接收消息: "+text);
-//                    msg.acknowledge();
+                    msg.acknowledge();
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }

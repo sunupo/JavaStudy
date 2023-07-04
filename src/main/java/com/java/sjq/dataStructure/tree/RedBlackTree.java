@@ -1,5 +1,8 @@
 package com.java.sjq.dataStructure.tree;
 
+/**
+ * @author sunupo
+ */
 public class RedBlackTree {
     private Node root;
     private static final boolean RED = true;

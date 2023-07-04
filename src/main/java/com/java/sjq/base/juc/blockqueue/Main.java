@@ -1,30 +1,9 @@
-package com.java.sjq.base.juc.thread.threadpool;
+package com.java.sjq.base.juc.blockqueue;
 
-import java.util.Scanner;
 import java.util.concurrent.*;
-
-import static com.dyuproject.protostuff.CollectionSchema.MessageFactories.PriorityBlockingQueue;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-      //
-
-        PriorityBlockingQueue queue = new PriorityBlockingQueue();
-        BlockingQueue<Integer> blockingQueue = new LinkedBlockingQueue<>(100);
-        //带有阻塞的入队操作
-        blockingQueue.put(1);
-        blockingQueue.put(2);
-        blockingQueue.put(3);
-        //带有阻塞的出队操作
-        Integer ret = blockingQueue.take();
-        System.out.println(ret);
-        ret = blockingQueue.take();
-        System.out.println(ret);
-        ret = blockingQueue.take();
-        System.out.println(ret);
-
-        ret = blockingQueue.take();//此时就会阻塞等待了
-        System.out.println(ret);
     }
     public void array(){
         ArrayBlockingQueue arrayBlockingQueue = new ArrayBlockingQueue(1);

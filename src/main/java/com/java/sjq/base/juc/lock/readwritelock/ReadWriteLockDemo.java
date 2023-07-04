@@ -1,4 +1,4 @@
-package com.java.sjq.base.juc.readwritelock;
+package com.java.sjq.base.juc.lock.readwritelock;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

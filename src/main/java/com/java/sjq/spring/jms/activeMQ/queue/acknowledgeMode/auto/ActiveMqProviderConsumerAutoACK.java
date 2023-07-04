@@ -3,7 +3,6 @@ package com.java.sjq.spring.jms.activeMQ.queue.acknowledgeMode.auto;
 import com.java.sjq.spring.jms.activeMQ.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.RedeliveryPolicy;
-import org.apache.activemq.broker.region.policy.SharedDeadLetterStrategy;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import javax.jms.*;
  * Consumer Session.AUTO_ACKNOWLEDGE 自动确认机制。
  * 抛出异常，consumer 会重新接收到出错的消息。
  */
-public class ActiveMqProviderConsumer1 {
+public class ActiveMqProviderConsumerAutoACK {
     public static final String MESSAGE = "Session.AUTO_ACKNOWLEDGE 异常消息测试";
 
     @Before

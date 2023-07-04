@@ -10,7 +10,7 @@ import org.junit.Test;
 import javax.jms.*;
 
 
-public class ActiveMqProviderConsumer {
+public class ActiveMqProviderConsumerClientACKException {
     public static final String MESSAGE = "Session.CLIENT_ACKNOWLEDGE 异常消息测试";
 
     @Before

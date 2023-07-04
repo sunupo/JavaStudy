@@ -5,12 +5,10 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.TopicPartition;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Properties;
 
 import static com.java.sjq.messagequeue.kafaka.demo.Producer.TOPIC1;
@@ -19,7 +17,7 @@ import static com.java.sjq.messagequeue.kafaka.demo.Producer.TOPIC2;
 /**
  * 消息消费者
  */
-public class Consumer1 {
+public class Consumer2 {
 
     public static void main(String[] args) {
 
@@ -48,6 +46,7 @@ public class Consumer1 {
                 System.out.println("record:\t"+record);
                 System.out.println(record.value());
                 System.out.println(record.key());
+                consumer.commitSync();
             }
         }
 

@@ -1,53 +1,34 @@
-[(122条消息) ActiveMQ入门 (七) 死信队列\_activemq 死信队列\_TechHao-Plus的博客-CSDN博客](https://blog.csdn.net/weixin_42639673/article/details/124303637)
 
-## [ActiveMQ](https://so.csdn.net/so/search?q=ActiveMQ&spm=1001.2101.3001.7020)入门 (七) 死信队列
+[(122条消息) ActiveMQ入门 (八)使用常见问题/面试题\_activitymq突然宕机\_TechHao-Plus的博客-CSDN博客](https://blog.csdn.net/weixin_42639673/article/details/124338988)
 
-## 一、ActiveMQ死信队列设置
+### 文章目录
 
-## 1.消息重发的情况
+-   [一、ActiveMQ宕机了怎么办？](https://blog.csdn.net/weixin_42639673/article/details/124338988#ActiveMQ_4)
+-   [二、如何防止消费方消息重复消费？](https://blog.csdn.net/weixin_42639673/article/details/124338988#_9)
+-   -   [1.数据库操作](https://blog.csdn.net/weixin_42639673/article/details/124338988#1_10)
+-   [2.非数据库操作](https://blog.csdn.net/weixin_42639673/article/details/124338988#2_13)
+-   [三、如何防止消费方消息重复消费？](https://blog.csdn.net/weixin_42639673/article/details/124338988#_17)
 
-A transacted session is used and rollback() is called.  
-A transacted session is closed before commit is called.  
-A session is using CLIENT\_ACKNOWLEDGE and Session.recover() is called.
+___
 
-```
-当一个消息被重发超过6(缺省为6次)次数时，会给broker发送一个"Poison ack"，这个消息被认为是a
-poison pill，这时broker会将这个消息发送到死信队列，以便后续处理。
-```
+## 一、[ActiveMQ](https://so.csdn.net/so/search?q=ActiveMQ&spm=1001.2101.3001.7020)宕机了怎么办？
 
-注意三点：  
-1）缺省持久消息过期，会被送到DLQ，非持久消息不会送到DLQ  
-2）缺省的死信队列是ActiveMQ.DLQ，如果没有特别指定，死信都会被发送到这个队列。  
-3）可以通过配置文件(activemq.xml)来调整死信发送策略。
+Zookeeper集群+ Replicated LevelDB + ActiveMQ集群  
+(目前只看了一遍视频，没有动手操作，具体等遇到问题再看)
 
-## 二、死信队列配置
+## 二、如何防止消费方消息重复消费？
 
-## 1.为每个队列建立独立的死信队列
+## 1.数据库操作
 
-修改activeMQ.xml
+把消息的ID作为表的唯一主键，这样在重试的情况下，会触发主键冲突，从而避免数据出现[脏数据](https://so.csdn.net/so/search?q=%E8%84%8F%E6%95%B0%E6%8D%AE&spm=1001.2101.3001.7020)。
 
-```
-<destinationPolicy>
-<policyMap>
-<policyEntries>
-<policyEntry queue=">">
-<deadLetterStrategy>
-<individualDeadLetterStrategy queuePrefix="DLQ."
-useQueueForQueueMessages="true" />
-</deadLetterStrategy>
-</policyEntry>
+## 2.非数据库操作
 
-<policyEntry topic=">" >
-<pendingMessageLimitStrategy>
-<constantPendingMessageLimitStrategy limit="1000"/>
-</pendingMessageLimitStrategy>
-</policyEntry>
-</policyEntries>
-</policyMap>
-</destinationPolicy>
-```
+可以借助第三方的应用，例如Redis，来记录消费记录。每次消息被消费完成时候，把当前消息的ID作为key存入redis，每次消费前，先到redis查询有没有该消息的消  
+费记录。
 
-## 三、RedeliveryPolicy重发策略设置
+## 三、如何防止消费方消息重复消费？
 
-修改启动类  
-![在这里插入图片描述](https://img-blog.csdnimg.cn/9831530ca6664243b4e5586cf4bccad1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAd2VpeGluXzQyNjM5Njcz,size_20,color_FFFFFF,t_70,g_se,x_16)
+1）在消息生产者和消费者使用事务  
+2）在消费方采用手动消息确认（ACK）  
+3）消息持久化，例如JDBC或日志

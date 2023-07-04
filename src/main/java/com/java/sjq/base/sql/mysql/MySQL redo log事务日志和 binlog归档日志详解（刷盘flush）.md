@@ -134,3 +134,4 @@ binlog（归档日志）保证了MySQL集群架构的数据一致性
 
 
 
+## binlog的是binlog cache， redo log 是 redolog buffer 

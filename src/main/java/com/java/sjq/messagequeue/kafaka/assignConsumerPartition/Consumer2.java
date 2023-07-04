@@ -18,7 +18,7 @@ import static com.java.sjq.messagequeue.kafaka.demo.Producer.TOPIC2;
 /**
  * 消息消费者
  */
-public class Consumer1 {
+public class Consumer2 {
 
     public static void main(String[] args) {
 
@@ -32,14 +32,10 @@ public class Consumer1 {
 
         //创建消费者
         KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(properties);
-        //订阅主题
-        Collection<String> topics= new ArrayList<>();
-        topics.add(TOPIC1);
-        topics.add(TOPIC2);
-
+        //订阅主题和分区
         Collection<TopicPartition> partitions = new ArrayList<>();
         TopicPartition topicPartition1 = new TopicPartition(TOPIC1, 0);
-        TopicPartition topicPartition2 = new TopicPartition(TOPIC2, 0);
+        TopicPartition topicPartition2 = new TopicPartition(TOPIC2, 1); // 这儿和 consumer1.java 不一样。
         partitions.add(topicPartition1);
         partitions.add(topicPartition2);
         consumer.assign(partitions);

@@ -1,7 +1,8 @@
-package com.java.sjq.spring.jms.activeMQ;
+package com.java.sjq.spring.jms.activeMQ.queue.base;
 
 
 
+import com.java.sjq.spring.jms.activeMQ.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.junit.Test;
@@ -40,18 +41,14 @@ public class MQProvider {
         MessageProducer producer = session.createProducer(ningning);
         // 创建消息对象封装消息
         TextMessage message = new ActiveMQTextMessage();
-        for(int i = 0; i < 10; i++) {
-            Thread.sleep(1000);
-            message.setText("发送点对点消息"+i);
-            // 发送消息
-            producer.send(message);
+        message.setText("发送点对点消息");
 
-        }
-
-//               // 关闭资源
-//        producer.close();
-//        session.close();
-//        connection.close();
+        // 发送消息
+        producer.send(message);
+        // 关闭资源
+        producer.close();
+        session.close();
+        connection.close();
 
     }
 }

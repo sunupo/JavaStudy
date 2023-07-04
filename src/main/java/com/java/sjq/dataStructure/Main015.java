@@ -4,15 +4,7 @@ import org.junit.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created with IntelliJ IDEA.
- * Author: Amos
- * E-mail: amos@amoscloud.com
- * Date: 2022/11/11
- * Time: 4:35
- * Description: 40%
- */
-public class Main0154 {
+public class Main015 {
     String reverseWords(String s, int start, int end){
         int len = end - start + 1;
         String[] srcArr = s.split(" ");

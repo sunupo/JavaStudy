@@ -26,10 +26,14 @@ import com.soecode.lyf.exception.RepeatAppointException;
 import com.soecode.lyf.service.BookService;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@Controller
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@RestController
 @RequestMapping("/book") // url:/模块/资源/{id}/细分 /seckill/list
 public class BookController {
 
@@ -248,5 +252,44 @@ public class BookController {
         }
         return fileSize;
     }
+
+    @RequestMapping(value = "/convertDate")
+    @ResponseBody
+    private String testControllerAdvice( @RequestParam(value = "time", required = true) Date time){
+        return time.toString();
+    }
+
+    /**
+     *
+     * @param book
+     * @return
+     */
+    @RequestMapping(value = "/testJSON")
+    @ResponseBody
+    private Book testJSON(Book book, HttpServletResponse response){
+//        response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN.toString(),"https://blog.csdn.net");
+//        response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_METHODS.toString(), "POST, GET, OPTIONS");
+//        response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS.toString(), "X_PINGOTHER, Content-type");
+//        response.setHeader(HttpHeaderNames.ACCESS_CONTROL_MAX_AGE.toString(), "86400");
+        System.out.println(book.toString());
+        book.setBookId(998);
+        Cookie c1 = new Cookie("c1", "v1");
+        Cookie c2 = new Cookie("c2", "v2");
+        Cookie c3 = new Cookie("c3", "v3");
+        Cookie c4 = new Cookie("c3", "v4");
+        c1.setMaxAge(10000);
+        c1.setMaxAge(20000);
+        c4.setMaxAge(20000);
+        response.addCookie(c1);
+        response.addCookie(c2);
+        response.addCookie(c3);
+        response.addCookie(c4);
+
+//        response.addHeader("Cache-Control", "max-age=1000");
+        response.addHeader("Cache-Control", "no-cache");
+        response.addHeader("Last-Modified", d.toString());
+        return book;
+    }
+    Date d = new Date();
 
 }

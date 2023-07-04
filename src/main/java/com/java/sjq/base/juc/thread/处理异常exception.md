@@ -102,7 +102,7 @@ protected void terminated() { }
 Thread.setUncaughtExceptionHandler(Thread.UncaughtExceptionHandler);
 ```
 
-Thread类中提供了一个setUncaughtExceptionHandler方法，用来处理捕获的异常，我们可以在创建Thread的时候，为其添加一个UncaughtExceptionHandler就可以了。
+**Thread类中提供了一个setUncaughtExceptionHandler方法，用来处理捕获的异常，我们可以在用ThreadFactory创建Thread的时候，为其添加一个UncaughtExceptionHandler就可以了。**
 
 但是ExecutorService执行的是一个个的Runnable，怎么使用ExecutorService来提交Thread呢？
 

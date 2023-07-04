@@ -1,22 +1,0 @@
-
-t
-java:S2142"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
-S	java:S106"9Replace this use of System.out or System.err by a logger.(·¿³‘úÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(ŸÀ¦–
-N	java:S106"9Replace this use of System.out or System.err by a logger.(âòÆ¾
-S	java:S106"9Replace this use of System.out or System.err by a logger.(Õ¹¨–øÿÿÿÿ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(ƒ—¹›úÿÿÿÿ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(¯ïÊåıÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(æ²ÿü
-N	java:S106"9Replace this use of System.out or System.err by a logger.(ÇÉò
-N	java:S106"9Replace this use of System.out or System.err by a logger.(üÛ–à
-B
-java:S1602(",Remove useless curly braces around statement(÷¼¼Ä
-X
-java:S1612("BReplace this lambda with method reference 'lockTest::doBussiness'.(÷¼¼Ä
-B
-java:S1602.",Remove useless curly braces around statement(÷¼¼Ä
-X
-java:S1612."BReplace this lambda with method reference 'lockTest::doBussiness'.(÷¼¼Ä
-R
-java:S1128"<Remove this unused import 'java.util.concurrent.locks.Lock'.(µÒÌÿ

@@ -39,7 +39,7 @@ public class Main {
 }
 /**
  * ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列。
- * LinkedBlockingQueue：一个由链表结构组成的有界阻塞队列。
+ * LinkedBlockingQueue：一个由链表结构组成的(可选边界)有界阻塞队列。
  * PriorityBlockingQueue：一个支持优先级排序的无界阻塞队列。
  * DelayQueue：一个使用优先级队列实现的无界阻塞队列。
  * SynchronousQueue：一个不存储元素的阻塞队列。
@@ -47,19 +47,19 @@ public class Main {
  * LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。
  *
  *
- * ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列。
+ * ArrayBlockingQueue：数组 有界
  *
- * LinkedBlockingQueue：一个由链表结构组成的有界阻塞队列。
+ * LinkedBlockingQueue：链表 （可选边界)有界【不扩容，offer 超出容量返回 false】
  *
- * PriorityBlockingQueue：一个支持优先级排序的无界阻塞队列。
+ * PriorityBlockingQueue：优先级排序  _无界_  【虽然构造方法指定容量参数，但是offer会扩容】
  *
- * DelayQueue：一个使用优先级队列实现的延迟无界阻塞队列。
+ * DelayQueue：一个使用优先级队列（PriorityQueue）实现的延迟  _无界_
  *
  * SynchronousQueue：一个不存储元素的阻塞队列。
  *
- * LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。
+ * LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。  _无界_   （transfer方法， 有消费者就不排队，没有消费者就排队。try transfer 设置了排队超时时间）
  *
- * LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。
+ * LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。 （可选边界)有界
  *
  */
 /*

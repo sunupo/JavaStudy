@@ -1,18 +1,16 @@
 package com.java.sjq.spring.jms.activeMQ.queue.acknowledgeMode.clientack;
 
-import com.java.sjq.base.collection.hashmap.HashMapDemo;
 import com.java.sjq.spring.jms.activeMQ.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.RedeliveryPolicy;
 import org.junit.Test;
 
 import javax.jms.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class ActiveMqConsumer2 {
+public class ActiveMqConsumer4 {
     public static final String MESSAGE = "Session.CLIENT_ACKNOWLEDGE 异常消息测试";
 
     /*
@@ -37,7 +35,8 @@ public class ActiveMqConsumer2 {
         MessageConsumer consumer = session.createConsumer(sessionQueue);
 
         Map<String,Boolean> map = new ConcurrentHashMap<>();
-        map.put("flag", true);
+        final String FLAG= "flag";
+        map.put(FLAG, true);
         consumer.setMessageListener(message -> {
             // 获取消息
             if (message instanceof TextMessage){
@@ -46,9 +45,9 @@ public class ActiveMqConsumer2 {
                     String text = msg.getText();
                     System.out.println("接收消息: "+text);
                     if(text.substring(text.length()-1).equals("5")){
-                        map.put("flage", false);
+                        map.put(FLAG, false);
                     }
-                    if(map.get("flag")) {
+                    if(map.get(FLAG)) {
                         msg.acknowledge();
                     }
                 } catch (JMSException e) {

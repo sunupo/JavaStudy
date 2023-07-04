@@ -1,4 +1,4 @@
-package com.java.sjq.messagequeue.kafaka.assignConsumerPartition;
+package com.java.sjq.messagequeue.kafaka.noAutoCommit;
 
 
 /**

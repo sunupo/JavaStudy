@@ -1,17 +1,18 @@
-| PROPAGATION_XXX | 没有事务       | 存在事务       |
-| --------------- | -------------- | -------------- |
-| REQUIRED        | 创建new        | 加入++         |
-| SUPPORT         | 加入++         | 【非事务执行】 |
-| MANDARY         | 异常！！！     | 加入++         |
-| NEVER           | 【非事务执行】 | 异常！！！     |
-| REQUIRED_NEW    | 创建new        | 创建new        |
-| NOT_SUPPORT     | 【非事务执行】 | 挂起suspend    |
-| NESTED          | 创建new        | 嵌套执行       |
+| PROPAGATION_XXX | 没有事务       | 存在事务    |
+| --------------- | -------------- | ----------- |
+| REQUIRED        | 创建new        | 加入++      |
+| SUPPORT         | 【非事务执行】 | 加入++      |
+| MANDARY         | 异常！！！     | 加入++      |
+| NEVER           | 【非事务执行】 | 异常！！！  |
+| REQUIRED_NEW    | 创建new        | 创建new     |
+| NOT_SUPPORT     | 【非事务执行】 | 挂起suspend |
+| NESTED          | 创建new        | 嵌套执行    |
 
 ## PROPAGATION_NESTED 和PROPAGATION_REQUIRES_NEW 区别
 
-      1. 开启事务的多少，PROPAGATION_REQUIRES_NEW会开启一个新事务，外部事务挂起，里面的事务独立执行。PROPAGATION_NESTED为父子事务，实际上是借助jdbc的savepoint实现的，属于同一个事物。 
-      2. PROPAGATION_NESTED的回滚可以总结为，子事务回滚到savepoint，父事务可选择性回滚或者不不滚；父事务回滚子事务一定回滚。PROPAGATION_REQUIRES_NEW则是不同事物，嵌套事务之间没有必然联系是否回滚都由自己决定。
+  1. 开启事务的多少，PROPAGATION_REQUIRES_NEW会开启一个新事务，外部事务挂起，里面的事务独立执行。PROPAGATION_NESTED为父子事务，实际上是借助jdbc的savepoint实现的，属于同一个事物。 
+  2. PROPAGATION_NESTED的回滚可以总结为，子事务回滚到savepoint，父事务可选择性回滚或者不不滚；父事务回滚子事务一定回滚。PROPAGATION_REQUIRES_NEW则是不同事物，嵌套事务之间没有必然联系是否回滚都由自己决定。
+
   ————————————————
   版权声明：本文为CSDN博主「Big_Blogger」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
   原文链接：https://blog.csdn.net/Big_Blogger/article/details/70184627

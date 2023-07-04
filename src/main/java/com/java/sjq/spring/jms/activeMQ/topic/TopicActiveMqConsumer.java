@@ -1,5 +1,6 @@
-package com.java.sjq.spring.jms.activeMQ;
+package com.java.sjq.spring.jms.activeMQ.topic;
 
+import com.java.sjq.spring.jms.activeMQ.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.junit.Test;
 

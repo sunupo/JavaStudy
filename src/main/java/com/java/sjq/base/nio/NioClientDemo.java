@@ -10,7 +10,7 @@ public class NioClientDemo {
         SocketChannel socketChannel = SocketChannel.open();
 
         // Connect to a server
-        socketChannel.connect(new InetSocketAddress("localhost", 8888));
+        socketChannel.connect(new InetSocketAddress("localhost", 12345));
 
         // Write data to the channel
         String message = "Hello, server!";

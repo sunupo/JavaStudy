@@ -1,4 +1,4 @@
-package com.java.sjq.spring.jms.activeMQ.queue.acknowledgeMode.clientack.exception;
+package com.java.sjq.spring.jms.activeMQ.queue.acknowledgeMode.individualack.exception;
 
 import com.java.sjq.spring.jms.activeMQ.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -9,9 +9,11 @@ import org.junit.Test;
 
 import javax.jms.*;
 
+import static org.apache.activemq.ActiveMQSession.INDIVIDUAL_ACKNOWLEDGE;
+
 
 public class ActiveMqProviderConsumer {
-    public static final String MESSAGE = "Session.AUTO_ACKNOWLEDGE 异常消息测试";
+    public static final String MESSAGE = "ActiveMQSession.INDIVIDUAL_ACKNOWLEDGE 异常消息测试";
 
     @Before
     public void sendMessage() throws Exception{
@@ -21,9 +23,7 @@ public class ActiveMqProviderConsumer {
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Queue ningning = session.createQueue(Constants.QUEUE_NAME);
         MessageProducer producer = session.createProducer(ningning);
-//        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
         TextMessage message = new ActiveMQTextMessage();
-//        message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
         for(int i = 0; i < 10; i++) {
             Thread.sleep(10);
             message.setText(MESSAGE+i);
@@ -55,7 +55,7 @@ public class ActiveMqProviderConsumer {
 
         Connection connection = connectionFactory.createConnection();
         connection.start();
-        Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+        Session session = connection.createSession(false, INDIVIDUAL_ACKNOWLEDGE);
 
         Queue sessionQueue = session.createQueue(Constants.QUEUE_NAME);
         MessageConsumer consumer = session.createConsumer(sessionQueue);
@@ -68,7 +68,7 @@ public class ActiveMqProviderConsumer {
                 try {
                     text = msg.getText();
                     if(text.equals(MESSAGE+3)){
-                        throw new RuntimeException("client ack 模式下，模拟业务抛出异常 ");
+                        throw new RuntimeException("模拟业务抛出异常 ");
                     }
                     System.out.println("接收消息: √"+text);
                     msg.acknowledge();

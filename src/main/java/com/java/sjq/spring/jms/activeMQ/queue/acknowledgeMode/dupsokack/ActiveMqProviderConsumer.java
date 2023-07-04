@@ -1,4 +1,4 @@
-package com.java.sjq.spring.jms.activeMQ.queue.acknowledgeMode.individualack.exception;
+package com.java.sjq.spring.jms.activeMQ.queue.acknowledgeMode.dupsokack;
 
 import com.java.sjq.spring.jms.activeMQ.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -13,7 +13,7 @@ import static org.apache.activemq.ActiveMQSession.INDIVIDUAL_ACKNOWLEDGE;
 
 
 public class ActiveMqProviderConsumer {
-    public static final String MESSAGE = "ActiveMQSession.INDIVIDUAL_ACKNOWLEDGE 异常消息测试";
+    public static final String MESSAGE = "Session.DUPS_OK_ACKNOWLEDGE 异常消息测试";
 
     @Before
     public void sendMessage() throws Exception{
@@ -55,7 +55,7 @@ public class ActiveMqProviderConsumer {
 
         Connection connection = connectionFactory.createConnection();
         connection.start();
-        Session session = connection.createSession(false, INDIVIDUAL_ACKNOWLEDGE);
+        Session session = connection.createSession(false, Session.DUPS_OK_ACKNOWLEDGE);
 
         Queue sessionQueue = session.createQueue(Constants.QUEUE_NAME);
         MessageConsumer consumer = session.createConsumer(sessionQueue);
@@ -71,7 +71,6 @@ public class ActiveMqProviderConsumer {
                         throw new RuntimeException("模拟业务抛出异常 ");
                     }
                     System.out.println("接收消息: √"+text);
-                    msg.acknowledge();
                 } catch (JMSException e) {
                     System.out.println("接收消息: 异常×"+text);
                 }

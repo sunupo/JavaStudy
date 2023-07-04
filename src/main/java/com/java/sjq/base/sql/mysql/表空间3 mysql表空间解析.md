@@ -27,6 +27,8 @@
 
 ### 2.区结构解析
 
+> [MySQL :: MySQL 5.7 Reference Manual :: MySQL Glossary --- MySQL ：： MySQL 5.7 参考手册 ：： MySQL 词汇表](https://dev.mysql.com/doc/refman/5.7/en/glossary.html#glos_extent)
+
 ![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e7bb7041d9248269f4a7db3e6e8f5b1~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp?)
 
 #### 组
@@ -38,6 +40,8 @@
 3. 表空间**第一个组的第一个分区第二页**是比较特殊的，也就是INODE类型的页，这个页只存储了表空间级别的信息。其它分组的页都没这个页。这个页存什么信息呢，存的是**<u>段</u>**的信息，什么是段？其实是索引有关的信息。
 
 ### 3.段结构解析
+
+[MySQL :: MySQL 5.7 Reference Manual :: MySQL Glossary --- segment](https://dev.mysql.com/doc/refman/5.7/en/glossary.html#glos_segment)
 
 ![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7a79387ad7314ab18d07399c69a534ab~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp?)1.段
 
@@ -100,7 +104,7 @@
 
 ## 碎片区
 
-默认情况下，假如我们新建一个索引就会生成两个段（叶子节点段和非叶子节点段），而一个段中至少包含一个区，也就是需要2MB的空间，假如我们这个表压根没有多少数据，那么一次就要申请2MB的空间明显是浪费的。为了解决这个问题，设计者提出了碎片区的概念，碎片区中的页可能属于不同的段，也可以用于不同的目的，至于如何控制应不应该给一个段申请专属的区，会进行以下控制：
+默认情况下，假如我们**新建一个索引就会生成两个段（叶子节点段和非叶子节点段），而一个段中至少包含一个区，也就是需要==2MB==的空间**，假如我们这个表压根没有多少数据，那么一次就要申请2MB的空间明显是浪费的。为了解决这个问题，设计者提出了碎片区的概念，碎片区中的页可能属于不同的段，也可以用于不同的目的，至于如何控制应不应该给一个段申请专属的区，会进行以下控制：
 
 1.  刚开始向表插入数据，都是从某一个碎片区以页为单位来分配存储空间。
 2.  当一个段占用的空间达到了32个碎片区的页之后，就会开始给这个段申请专属的区。

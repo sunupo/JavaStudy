@@ -32,11 +32,7 @@ public class Consumer1 {
 
         //创建消费者
         KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(properties);
-        //订阅主题
-        Collection<String> topics= new ArrayList<>();
-        topics.add(TOPIC1);
-        topics.add(TOPIC2);
-
+        //订阅主题和分区
         Collection<TopicPartition> partitions = new ArrayList<>();
         TopicPartition topicPartition1 = new TopicPartition(TOPIC1, 0);
         TopicPartition topicPartition2 = new TopicPartition(TOPIC2, 0);

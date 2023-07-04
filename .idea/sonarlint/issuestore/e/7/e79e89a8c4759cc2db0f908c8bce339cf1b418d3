@@ -14,7 +14,7 @@ N	java:S106/"9Replace this use of System.out or System.err by a logger.(Žè˜Õ
 N	java:S1064"9Replace this use of System.out or System.err by a logger.(èß¿€
 S	java:S1065"9Replace this use of System.out or System.err by a logger.(­é‹°þÿÿÿÿ
 N	java:S106<"9Replace this use of System.out or System.err by a logger.(‹¨ÑÜ
-Z	java:S106="9Replace this use of System.out or System.err by a logger.(Ùñ¬øÿÿÿÿ8¥ßòä0
+S	java:S106="9Replace this use of System.out or System.err by a logger.(Ùñ¬øÿÿÿÿ
 C
 java:S1068"-Remove this unused "memberVar" private field.(ß²í
 C

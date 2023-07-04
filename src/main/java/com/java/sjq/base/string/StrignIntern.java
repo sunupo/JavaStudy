@@ -11,6 +11,27 @@ import org.junit.Test;
  * 如果串池中没有，会将堆中的字符串对象复制一份放到串池中，最后返回StringTable中刚加入的对象。
  */
 public class StrignIntern {
+    static class A{
+        int i;
+        A(int i){
+            this.i = i;
+        }
+    }
+    static class B {
+        A objA;
+        B(A a){
+            this.objA = a;
+        }
+    }
+    public static void main(String[] args){
+      //
+        A a=new A(1);
+        B b=new B(a);
+        System.out.printf("%d，%d\n",a.i,b.objA.i);
+        b.objA.i=2;
+        System.out.printf("%d,%d",a.i,b.objA.i);
+
+    }
     @Test
     public void list() {
         String s1 = "ab";

@@ -1,5 +1,6 @@
-package com.java.sjq.spring.jms.activeMQ;
+package com.java.sjq.spring.jms.activeMQ.queue.base;
 
+import com.java.sjq.spring.jms.activeMQ.Constants;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.junit.Test;

@@ -14,6 +14,7 @@
 - 可以写 ALTER table user ADD        index                    (username(10));
 - 可以写 ALTER table user ADD UNIQUE index username_index_name(username(10));
 - 可以写 ALTER table user ADD UNIQUE index                    (username(10));
+- 可以写 ALTER table user ADD UNIQUE                          (username(10));
 - 不能创建两个索引名称相同的索引，即使索引字段的长度不同。
 - 不写索引名字，默认名字为 column 字段名，
   - 重复运行 不写索引名字的命令。索引名字按这种方式递增：username_index_name，username_index_name_1,username_index_name_2,……
@@ -52,3 +53,9 @@ DROP INDEX [indexName] ON mytable;
 show  index  from user;
 ```
 发现有两条名字相同key_name的索引，但是seq_in_index 不同
+
+### 删除索引
+```mysql
+drop index userName_9 on user;
+alter table user drop index userName_10;
+```

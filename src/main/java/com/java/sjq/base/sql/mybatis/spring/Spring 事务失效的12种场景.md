@@ -690,37 +690,41 @@ log.error(e.getMessage(), e);
 
 即使开发者没有手动捕获异常，但如果抛的异常不正确，spring事务也不会回滚。
 
+```java
 @Slf4j
 
 @Service
 
 public class UserService {
 
-@Transactional
+    @Transactional
 
-public void add(UserModel userModel) throws Exception {
+    public void add(UserModel userModel) throws Exception {
 
-try {
+        try {
 
-saveData(userModel);
+            saveData(userModel);
 
-updateData(userModel);
+            updateData(userModel);
 
-} catch (Exception e) {
+        } catch (Exception e) {
 
-log.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
 
-throw new Exception(e);
+            throw new Exception(e);
+
+        }
+
+    }
 
 }
+```
 
-}
 
-}
 
 上面的这种情况，开发人员自己捕获了异常，又手动抛出了异常：Exception，事务同样不会回滚。
 
-因为spring事务，默认情况下只会回滚RuntimeException(运行时异常)和Error(错误)，对于普通的Exception(非运行时异常)，它不会回滚。
+因为spring事务，默认情况下**只会回滚RuntimeException**(运行时异常)和**Error**(错误)，对于普通的Exception(非运行时异常)，它不会回滚。
 
 ### 4.自定义了回滚异常
 
@@ -730,23 +734,19 @@ throw new Exception(e);
 
 但如果这个参数的值设置错了，就会引出一些莫名其妙的问题，例如：
 
+```java
 @Slf4j
-
 @Service
-
 public class UserService {
-
-@Transactional(rollbackFor = BusinessException.class)
-
-public void add(UserModel userModel) throws Exception {
-
-saveData(userModel);
-
-updateData(userModel);
-
+    @Transactional(rollbackFor = BusinessException.class)
+    public void add(UserModel userModel) throws Exception {
+        saveData(userModel);
+        updateData(userModel);
+    }
 }
+```
 
-}
+
 
 如果在执行上面这段代码，保存和更新数据时，程序报错了，抛了SqlException、DuplicateKeyException等异常。而BusinessException是我们自定义的异常，报错的异常不属于BusinessException，所以事务也不会回滚。
 

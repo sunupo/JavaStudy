@@ -2,7 +2,7 @@
 
 ## 结论
 - `局部变量`。如果是基本类型，会把值直接存储在栈；如果是引用类型，比如`String s = new String("william");`会把其对象存储在堆，而把这个对象的引用（指针）存储在栈。
-- jvm只有一个堆区(heap)被所有线程共享，堆中不存放基本类型和对象引用，只存放对象本身（也就是值），类的成员变量在不同对象中各不相同，都有自己的存储空间(成员变量在堆中的对象中)，`基本类型和引用类型的成员变量都在这个对象的空间中，作为一个整体存储在堆`。
+- jvm只有一个堆区(heap)被所有线程共享，堆中不存放基本类型和对象引用，只存放对象本身（也就是值），**类的成员变量**在不同对象中各不相同，都有自己的存储空间(成员变量在堆中的对象中)，`基本类型和引用类型的成员变量都在这个对象的空间中，作为一个整体存储在堆`。
 - .类的方法是该类的所有对象共享的，只有一套，对象使用方法的时候方法才被压入栈，方法不使用则不占用内存。一个类可以产生无数个对象，但类就那么一个，方法也就那么一个
 
 大家都知道，**`局部变量是存在于栈里`**的，随着方法的调用而产生，随着方法的执行完毕而消失，因为栈是线程私有的，`所以局部变量也是线程安全的`。
@@ -22,8 +22,8 @@
 
 - `成员变量`存储在堆中的对象里面，由垃圾回收器负责回收。
 
-1. 类变量是被 static 修饰的变量，<u>准备阶段为类变量分配内存并设置初始值，使用的是方法区的内存</u>。
-2. 实例变量不会在这阶段分配内存，它会在对象实例化时随着对象一起被分配在堆中**。
+
+
 ```
 
 面试中，有家公司做数据库开发的，对内存要求比较高，考到了这个
@@ -138,49 +138,26 @@ public static final int INT3 = 9;
 ```Java
 
 class BirthDate {
-
     private int day;  
-
     private int month;  
-
     private int year;      
-
     public BirthDate(int d, int m, int y) {  
-
         day = d;   
-
         month = m;   
-
         year = y;  
-
     }  
-
     省略get,set方法………  
-
 }
 
-
-
 public class Test{
-
     public static void main(String args[]){  
-
-int date = 9;
-
+        int date = 9;
         Test test = new Test();        
-
-           test.change(date);   
-
+        test.change(date);   
         BirthDate d1= new BirthDate(7,7,1970);         
-
     }    
-
- 
-
     public void change1(int i){  
-
         i = 1234;  
-
     }  
 
 ```
@@ -282,12 +259,16 @@ public class Test {
 
  
 
+
+
         在分析下面结果以前让我们先对Java自动拆箱和装箱做个了结：在自动装箱时，把int变成Integer的时候，是有规则的，当你的int的值在-128-IntegerCache.high(127) 时，返回的不是一个新new出来的Integer对象，而是一个已经缓存在堆 中的Integer对象，（我们可以这样理解，系统已经把-128到127之 间的Integer缓存到一个Integer数组中去了，如果你要把一个int变成一个Integer对象，首先去缓存中找，找到的话直接返回引用给你就 行了，不必再新new一个），如果不在-128-IntegerCache.high(127) 时会返回一个新new出来的Integer对象。
 
  
 
-         结果3：由于3是在范围内所以是从缓存中取数据的，c和d指向同一个对象，结果为true;
 
+
+         结果3：由于3是在范围内所以是从缓存中取数据的，c和d指向同一个对象，结果为true;
+    
          结果4：由于321不是在范围内所以不是从缓存中取数据的而是单独有new对象，e和f并没有指向同一个对象，结果为false;
 
 
@@ -329,13 +310,13 @@ Java代码
 class StringTest {
 
     public static void main(String[] args) {  
-
+    
         String str1 = "abc";  
-
+    
         String str2 = new String("abc").intern();  
-
+    
         System.out.println(str1==str2);  
-
+    
     }  
 
 }
@@ -387,11 +368,11 @@ javap -c -verbose StringTest //反编译
 4(7)String str1 = "abc"; String str2 = "abc";str1 = "bcd";
 
       String str3 = str1;
-
+    
       System.out.println(str3);  //bcd
-
+    
       String str4 = "bcd";
-
+    
       System.out.println(str1 == str4);  //true 
 
 str3 这个对象的引用直接指向str1所指向的对象(注意，str3并没有创建新对象)。当str1改完其值后，再创建一个String的引用str4，并指向 因str1修改值而创建的新的对象。可以发现，这回str4也没有创建新的对象，从而再次实现栈中数据的共享。

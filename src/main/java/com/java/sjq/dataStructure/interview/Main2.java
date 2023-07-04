@@ -1,11 +1,13 @@
 package com.java.sjq.dataStructure.interview;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author sunupo
  */
-public class Main {
+public class Main2 {
     public static void main(String[] args){
       //
         cal("123", "45");

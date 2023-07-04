@@ -10,7 +10,7 @@
 
 阿里巴巴《Java开发手册》强制规定：不要使用 count(列名) 或 count(常量) 来替代 count( )，count( ) 是 SQL92 定义的标准统计行数的语法，跟数据库无关，跟 NULL 和非 NULL 无关。
 
-说明：count(*) 会统计值为 NULL 的行，而 count(列名) 不会统计此列为 NULL 值的行。
+说明：count(*) 会统计值为 NULL 的行，而 count(列名) 不会统计此列为 NULL 值的行。（count(1) 行不为 null 会统计，count(字段) 字段为 null 不会统计）
 
 2. distinct 数据丢失 
 
@@ -66,8 +66,14 @@ select sum(num) from orderitem where id >4;
 ```mysql
 -- 网上的而一些解决办法
 select ifnull(sum(num),0) as sum_num from orderitem where id >4;
+
 select coalesce(sum(num),0) as sum_num from orderitem where id >4;
-select case when isnull(sum(num)) then 0 else sum(num) end as sum_num from orderitem where id >4;
+
+select 
+case when isnull(sum(num)) then 0 
+else sum(num) 
+end 
+as sum_num from orderitem where id >4;
 -- 备注：这三种方法的结果稍微有点不一样，方法1和方法2的结果精确度可以在第二个参数中定义。
 -- case when函数相当于一个判断语句，返回的结果可以定义成0，也可以定义成其他字母甚至汉字。
 ```

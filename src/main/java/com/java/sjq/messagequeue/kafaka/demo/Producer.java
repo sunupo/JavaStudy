@@ -1,4 +1,4 @@
-package com.java.sjq.messagequeue.kafaka.subscribeMultiTopics;
+package com.java.sjq.messagequeue.kafaka.demo;
 
 
 import org.apache.kafka.clients.producer.KafkaProducer;

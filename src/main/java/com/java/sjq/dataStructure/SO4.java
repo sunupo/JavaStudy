@@ -1,85 +1,63 @@
 package com.java.sjq.dataStructure;
 
-import org.apache.kafka.clients.producer.Partitioner;
-import org.apache.kafka.common.Cluster;
-
 import java.util.*;
 
-class SO3 {
+class SO4 {
      class State{
-         int i;
-         double dis;
-         State(int i, double dis){
-             this.i = i;
+         int x,y;
+         int dis;
+         State(int x, int y, int dis){
+             this.x = x;
+             this.y = y;
              this.dis = dis;
          }
      }
      public static void main(String[] args){
        //
-         int n = 3, start = 0, end = 2;
-         int[][] edges = {{0,1},{1,2},{0,2}};
-         double[] succProb = {0.5,0.5,0.3};
-         double v = new SO3().maxProbability(n, edges, succProb, start, end);
-         System.out.println(v);
+         int[][] heights= new int[][]{{1,2,1,1,1},{1,2,1,2,1},{1,2,1,2,1},{1,2,1,2,1},{1,1,1,2,1}};
+         System.out.println(new SO4().minimumEffortPath(heights));
      }
 
-    List<Double[]>[] getAdjTable(int n, int[][] edges, double[] succProb){
-         List<Double[]>[] adjTable = new ArrayList[n];
-        for(int i = 0; i < adjTable.length; i++) {
-            adjTable[i] = new ArrayList<>();
-        }
-         for(int i = 0; i < edges.length; i++) {
-           adjTable[edges[i][0]].add(new Double[]{edges[i][1]*1.0, succProb[i]});
-           adjTable[edges[i][1]].add(new Double[]{edges[i][0]*1.0, succProb[i]});
-         }
-         return adjTable;
-    }
-    public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
-        List<Double[]>[] adjTable = getAdjTable(n,edges,succProb);
-        boolean[] visited = new boolean[n];
-        Arrays.fill(visited, false);
-        State nextState = new State(start, 1);
-        double [] disTo = new double[n];
-        disTo[start] = 1;
+    public int minimumEffortPath(int[][] heights) {
 
-        while(nextState!=null){
-            State maxState = nextState;
-            int maxStateI = maxState.i;
-            double maxStateDis = maxState.dis;
+        PriorityQueue<State> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(a -> a.dis));
+        priorityQueue.offer(new State(0,0,0));
 
+        int[][] disTo = new int[heights.length][heights[0].length];
+        disTo[0][0] = 0;
 
-            visited[maxStateI] = true;
-            for (Double[] d : adjTable[maxStateI]) {
-                int adjNode =  d[0].intValue();
-                double prob = d[1];
-                System.out.println("adj\t"+adjNode+"\t"+prob);
-
-                if(visited[adjNode]) {
-                    continue;
+        while(!priorityQueue.isEmpty()){
+            State state = priorityQueue.poll();
+            int x = state.x, y = state.y, dis = state.dis;
+            if(dis > disTo[x][y] ){
+                continue;
+            }
+            for (Integer[] adj: getAdj(x,y,heights)) {
+                int adjX = adj[0];
+                int adjY = adj[1];
+                int newDis = Math.min(disTo[x][y] , Math.abs(heights[x][y]-heights[adjX][adjY]));
+                if(disTo[adjX][adjY] > newDis ){
+                    disTo[adjX][adjY] = newDis;
+                    priorityQueue.offer(new State(adjX, adjY, newDis));
                 }
-                if(disTo[adjNode] < prob * maxStateDis){
-                    disTo[adjNode] = prob * maxStateDis;
-                }
-            }
-            int maxProbNode = getMaxProbNode(disTo, visited);
-            if(maxProbNode != -1){
-                nextState = new State(maxProbNode, disTo[maxProbNode]);
-            }else{
-                nextState=null;
+
             }
 
         }
-        return disTo[end];
+         return disTo[heights.length-1][heights[0].length-1];
+
     }
-    int getMaxProbNode(double[] disTo, boolean[] visited){
-        double max = 0;
-        int adj = -1;
-        for(int i=0;i<disTo.length;i++){
-            if(!visited[i] && disTo[i]>max){
-                adj = i;
-                max = disTo[i];
-            }
+    List<Integer[]> getAdj(int i, int j, int[][] heights){
+        List<Integer[]> list = new ArrayList<>();
+        int[][] dirs = new int[][]{{0,-1},{0,1},{-1,0},{1,0}};
+        for (int[] dir : dirs) {
+            int x = i+dir[0];
+            int y = j+dir[1];
+            if(x>=0 && x<heights.length &&y>=0 && y<heights[0].length){
+                list.add(new Integer[]{x,y});
+            };
         }
-        return adj;
+        return list;
     }
+
 }

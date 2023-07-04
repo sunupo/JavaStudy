@@ -1,3 +1,4 @@
+## 消费者监听与生产者生产的先后顺序
 ### kafka
 - consumer 先订阅，producer 再生产。
 - consumer 后订阅，producer 先生产。
@@ -9,6 +10,7 @@
 主题订阅模式下
 - consumer 先订阅，producer 再生产。能收到所有生产消息
 - consumer 后订阅，producer 先生产。不能收到订阅前的消息
+
 点对点模式下
 - consumer 先订阅，producer 再生产。
 - consumer 后订阅，producer 先生产。
@@ -24,6 +26,8 @@ kafka 广播消费和集群消费都是 broker 维护偏移量。因为广播消
 虽然 [为什么选择RocketMQ | RocketMQ](https://rocketmq.apache.org/zh/docs/4.x/#rocketmq-vs-activemq-vs-kafka) 写到 kafka 不能广播消费。指的应该是不能在一个 consumergroup 进行广播消费
 
 ### rocket
+> [基础概念 | RocketMQ](https://rocketmq.apache.org/zh/docs/4.x/consumer/01concept2/)
+> rocket 集群消费与广播消费
 RocketMQ主要提供了两种消费模式：集群消费以及广播消费。我们只需要在定义消费者的时候通过`setMessageModel(MessageModel.XXX)`方法就可以指定是集群还是广播式消费，默认是集群消费模式，即每个Consumer Group中的Consumer均摊所有的消息。
 
 ### ActiveMQ

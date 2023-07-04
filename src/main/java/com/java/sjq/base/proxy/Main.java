@@ -26,7 +26,7 @@ public class Main {
         UserService instance = (UserService) handler.getInstance();
         instance.add(1);
 
-        
+
         byte[] bytes = ProxyGenerator.generateProxyClass("$Proxy0", new Class[]{userServiceImpl.getClass()});
         FileOutputStream os = new FileOutputStream("src/main/java/com/java/sjq/base/proxy/Proxy0.class");
         os.write(bytes);

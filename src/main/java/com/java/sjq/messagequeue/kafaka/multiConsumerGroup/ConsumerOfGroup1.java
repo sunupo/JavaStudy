@@ -18,9 +18,9 @@ import static com.java.sjq.messagequeue.kafaka.multiConsumerGroup.Producer.TOPIC
 /**
  * 消息消费者
  */
-public class Consumer {
+public class ConsumerOfGroup1 {
 
-    private static final String TOPIC = "itcast-heima";
+    private static final String GROUP_1 = "group1";
 
     public static void main(String[] args) {
 
@@ -30,27 +30,22 @@ public class Consumer {
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");
         //设置分组
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG,"group2");
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_1);
 
         //创建消费者
         KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(properties);
+        consumer.commitSync();
         //订阅主题
         Collection<String> topics= new ArrayList<>();
         topics.add(TOPIC1);
         topics.add(TOPIC2);
         consumer.subscribe(topics);
-        consumer.subscribe(Collections.singletonList(TOPIC2));
-        consumer.subscribe(Collections.singletonList(TOPIC1));
-
-//        ArrayList<Object> list = new ArrayList<>();
-//        list.add(TOPIC1);
-//        list.add(TOPIC2);
-
 
         while (true){
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
             for (ConsumerRecord<String, String> record : records) {
                 System.out.println("record:\t"+record);
+                System.out.println(record.topic());
                 System.out.println(record.value());
                 System.out.println(record.key());
             }

@@ -1,18 +1,28 @@
 package com.java.sjq.dataStructure.tree;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
+/**
+ * 层次遍历二叉树（https://leetcode-cn.com/problems/binary-tree-level-order-traversal/）：
+ */
 public class LevelOrder {
     public static void main(String[] args){
+        PriorityQueue p = new PriorityQueue<>();
+        int c=97;//41,42 01000001 01000010
+        char[] d = "".toCharArray();
+        System.out.println((char)c+""+('a'^'b')+d.length);
+        int a = 1998, b = 2023;
+        a ^= b;
+        b ^= a;
+        a ^= b;
+        System.out.println(a+""+b);
+// 现在 a = 2, b = 1
+
 
     }
 
     public List<List<Integer>> levelOrder1(TreeNode root) {
         List<List<Integer>> res= new ArrayList<>();
-        // travel(root, res, 0);
         if(root == null){
             return res;
         }
@@ -24,12 +34,8 @@ public class LevelOrder {
             List<Integer> levelList = new ArrayList<>();
             res.add(levelList);
             while(curLevelSize>0){
+                curLevelSize--;
                 firstItem = queue.poll();
-                // if(firstItem != null) {
-                //     levelList.add(firstItem.val);
-                //     queue.offer(firstItem.left);  // queue 不允许添加 null
-                //     queue.offer(firstItem.right);
-                // }
                 levelList.add(firstItem.val);
                 if(firstItem.left != null) {
                     queue.offer(firstItem.left);
@@ -37,8 +43,11 @@ public class LevelOrder {
                 if(firstItem.right != null) {
                     queue.offer(firstItem.right);
                 }
-                curLevelSize--;
-
+                // if(firstItem != null) {
+                //     levelList.add(firstItem.val);
+                //     queue.offer(firstItem.left);  // queue 不允许添加 null
+                //     queue.offer(firstItem.right);
+                // }
             }
         }
         return res;
@@ -68,17 +77,3 @@ public class LevelOrder {
 
     }
 }
-
-
-class TreeNode {
-     int val;
-     TreeNode left;
-     TreeNode right;
-     TreeNode() {}
-     TreeNode(int val) { this.val = val; }
-     TreeNode(int val, TreeNode left, TreeNode right) {
-         this.val = val;
-         this.left = left;
-         this.right = right;
-     }
- }

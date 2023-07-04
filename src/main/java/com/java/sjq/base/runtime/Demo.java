@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 public class Demo {
+    final String abc = "fsgsdfgsdfgsdg";
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
             System.out.println("测试0----");

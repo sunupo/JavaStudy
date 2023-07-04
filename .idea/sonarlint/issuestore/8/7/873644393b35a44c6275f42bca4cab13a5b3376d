@@ -6,14 +6,14 @@ N	java:S106"9Replace this use of System.out or System.err by a logger.(Í‚ÑÜ
 S	java:S106"9Replace this use of System.out or System.err by a logger.(Ó‹ÛÂûÿÿÿÿ
 W
 java:S1854&"<Remove this useless assignment to local variable "consumer".(·É–Îøÿÿÿÿ
-T
-java:S1135""2Complete the task associated to this TODO comment.(¡è–„üÿÿÿÿ8…Çæ±ä0
-T
-java:S1135%"2Complete the task associated to this TODO comment.(ž™¿¯úÿÿÿÿ8›ýå±ä0
+M
+java:S1135""2Complete the task associated to this TODO comment.(¡è–„üÿÿÿÿ
+M
+java:S1135%"2Complete the task associated to this TODO comment.(ž™¿¯úÿÿÿÿ
 H
 java:S1481&"-Remove this unused "consumer" local variable.(·É–Îøÿÿÿÿ
-T
-java:S1135)"2Complete the task associated to this TODO comment.(ïœÜ¾ýÿÿÿÿ8³ÿã±ä0
+M
+java:S1135)"2Complete the task associated to this TODO comment.(ïœÜ¾ýÿÿÿÿ
 N	java:S106+"9Replace this use of System.out or System.err by a logger.(ù×ˆÍ
-O
-java:S1128"-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ8ãæ±ä0
+H
+java:S1128"-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ

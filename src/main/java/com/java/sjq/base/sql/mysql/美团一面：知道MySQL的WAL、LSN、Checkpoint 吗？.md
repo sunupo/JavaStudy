@@ -43,7 +43,7 @@ LSN占用8字节，LSN的值会随着日志的写入而逐渐增大，每写入�
 -   checkpoint的位置
     
 
-_最近一次刷盘的页，即最近一次检查点(checkpoint)，也是通过LSN来记录的，它也会被写入redo log里。_
+_最近一次刷盘的页，即最近一次检查点(checkpoint)，也是通过LSN来记录的，**它也会被写入redo log里**。_
 
 -   数据页的版本号。
     
@@ -121,7 +121,7 @@ Fuzzy Checkpoint
 -   FLUSH\_LRU\_LIST Checkpoint
     
 
-为了保证LRU列表中可用页的数量（通过参数innodb\_lru\_scan\_depth控制，默认值1024），后台线程定期检测LRU列表中空闲列表的数量，若不满足，就会将移除LRU列表尾端的页，若移除的页为脏页，则需要进行Checkpoint。
+为了**保证LRU列表中可用页的数量**（通过参数innodb\_lru\_scan\_depth控制，默认值1024），后台线程定期检测LRU列表中空闲列表的数量，若不满足，就会将移除LRU列表尾端的页，若移除的页为脏页，则需要进行Checkpoint。
 
 ```
 show VARIABLES like 'innodb_lru_scan_depth'
@@ -130,12 +130,12 @@ show VARIABLES like 'innodb_lru_scan_depth'
 -   Async/sync Flush Checkpoint
     
 
-当重做日志不可用（即redo log写满）时，需要强制将一些页刷新回磁盘，此时脏页从脏页列表中获取。
+**当重做日志不可用**（即redo log写满）时，需要强制将一些页刷新回磁盘，此时脏页从脏页列表中获取。
 
 -   Dirty Page too much Checkpoint
     
 
-即脏页数量太多，会强制推进CheckPoint。目的是保证缓冲区有足够的空闲页。innodb\_max\_dirty\_pages\_pct的默认值为75，表示当缓冲池脏页比例达到该值时，就会强制进行Checkpoint，刷新一部分脏页到磁盘。
+即**脏页数量太多**，会强制推进CheckPoint。目的是保证缓冲区有足够的空闲页。innodb\_max\_dirty\_pages\_pct的默认值为75，表示当缓冲池脏页比例达到该值时，就会强制进行Checkpoint，刷新一部分脏页到磁盘。
 
 ```
 show VARIABLES like 'innodb_max_dirty_pages_pct'
@@ -158,13 +158,51 @@ LSN号串联起一个事务开始到恢复的过程。
 
 两者相等则从 checkpoint lsn 点开始恢复，恢复过程是利用 redo log 到 buffer pool，直到 checkpoint lsn 等于 redo log file lsn，则恢复完成。如果 checkpoint lsn 小于 data disk lsn，说明在检查点触发后还没结束刷盘时数据库宕机了。
 
-因为 checkpoint lsn 最新值是在数据刷盘结束后才记录的，检查点之后有一部分数据已经刷入数据磁盘，这个时候数据磁盘已经写入部分的部分恢复将不会重做，直接跳到没有恢复的 lsn 值开始恢复。
+因为 checkpoint lsn 最新值是在数据刷盘结束后才记录的，检查点之后有一部分数据已经刷入数据磁盘，这个时候数据磁盘已经写入部分的部分恢复将不会重做，==直接跳到没有恢复的 lsn 值开始恢复==。（从checkpoint lsn 跳到 datadisk lsn，把datadisk lsn 到redolog lsn的数据从redolog文件恢复到 redo log buffer）
+
+> [美团一面：聊聊MySQL的七种日志](https://mp.weixin.qq.com/s/IWdqFq9ZtWug-M5pWxPCUQ)
+>
+> Redo log 有两个 LSN，一个writepos就是常说的redolog的LSN，一个checkpoint是存在redolog头部的而另一个lsn
+>
+> #### 1.3 crash-safe
+>
+> 因为redo log的存在使得**Innodb**引擎具有了**crash-safe**的能力，即MySQL宕机重启，系统会自动去检查redo log，将修改还未写入磁盘的数据从redo log恢复到MySQL中。
+>
+> MySQL启动时，不管上次是正常关闭还是异常关闭，总是会进行恢复操作。
+>
+> 会先检查数据页中的**LSN**，如果这个 LSN 小于 redo log 中的LSN，即**write pos**位置，说明在**redo log**上记录着数据页上尚未完成的操作，接着就会从最近的一个**check point**出发，开始同步数据。
+>
+> 简单理解，比如：redo log的**LSN**是500，数据页的`LSN`是300，表明重启前有部分数据未完全刷入到磁盘中，那么系统则将redo log中**LSN**序号300到500的记录进行**重放刷盘**。==上面说是恢复到buffer poll，这儿说是重放刷盘。刷盘是肯定的，刷盘难道是先从redolog文件恢复到内存的bufferpool，然后再从bufferpool刷盘？应该是，因为redolog是逻辑日志。==
+
+两个不等：1.如果 checkpoint lsn 小于 data disk lsn，说明在检查点触发后还没结束刷盘时数据库宕机了。2. checkpoint lsn == data disk lsn，checkpoint 小于 redolog lsn，
+
+> ![图片](assets/640.png)
+>
+> #### 1.2 redo log 大小固定
+>
+> redo log采用固定大小，循环写入的格式，当redo log写满之后，重新从头开始如此循环写，形成一个环状。
+>
+> 那为什么要如此设计呢？
+>
+> 因为redo log记录的是数据页上的修改，如果**Buffer Pool**中数据页已经刷磁盘后，那这些记录就失效了，新日志会将这些失效的记录进行覆盖擦除。
+>
+> <img src="assets/640-1678723852575-6.png" alt="图片" style="zoom:25%;" />
+>
+> 上图中的**write pos**表示redo log当前记录的日志序列号**LSN**(log sequence number)，写入还未刷盘，循环往后递增；
+>
+> **check point**表示redo log中的修改记录已刷入磁盘后的LSN，循环往后递增，这个LSN之前的数据已经全落盘。
+>
+> **write pos**到**check point**之间的部分是redo log空余的部分（绿色），用来记录新的日志；
+>
+> **check point**到**write pos**之间是redo log已经记录的数据页修改数据，此时数据页还未刷回磁盘的部分。
+>
+> 当**write pos**追上**check point**时，会先推动**check point**向前移动，空出位置（刷盘）再记录新的日志。
 
 ## 5\. 总结
 
 日志空间中的每条日志对应一个LSN值，而在数据页的头部也记录了当前页最后一次修改的LSN号，每次当数据页刷新到磁盘后，会去更新日志文件中checkpoint，以减少需要恢复执行的日志记录。
 
-极端情况下，数据页刷新到磁盘成功后，去更新checkpoint时如果宕机，则在恢复过程中，由于checkpoint还未更新，则数据页中的记录相当于被重复执行，不过由于在日志文件中的操作记录具有幂等性，所以同一条redo log执行多次，不影响数据的恢复。
+极端情况下，数据页刷新到磁盘成功后，去更新checkpoint时如果宕机，则在恢复过程中，由于checkpoint还未更新，则数据页中的记录相当于被重复执行，不过由于在日志文件中的操作记录具有幂等性，所以同一条redo log执行多次，不影响数据的恢复。（==但是上面说的是跳到 磁盘数据页的LSN开始恢复==，因为幂等，所以上面说的和这儿说的重checkpoit lsn更新是一样的。说不定幂等就是判断过数据了，就往后面跳）
 
 End
 

@@ -2,15 +2,8 @@ package com.java.sjq.dataStructure;
 
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * Author: Amos
- * E-mail: amos@amoscloud.com
- * Date: 2021/5/8
- * Time: 16:21
- * Description: 85%
- */
-public class Main0054 {
+
+public class Main0033 {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             int n = scanner.nextInt();

@@ -18,11 +18,14 @@ package com.soecode.lyf.gateaway;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * @author sunupo
  */
 //@Configuration
 public class GatewayConfig {
+    ConcurrentHashMap concurrentHashMap;
 
 //    @Bean
 //    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
@@ -42,3 +45,5 @@ public class GatewayConfig {
 // 2. 请求路径为"/test/**"的请求将被转发到名为"test-service"的服务，同时使用了一个过滤器，用于限制请求速率。
 
 // 我们还可以添加更多的路由规则和过滤器，以满足不同的需求。
+
+

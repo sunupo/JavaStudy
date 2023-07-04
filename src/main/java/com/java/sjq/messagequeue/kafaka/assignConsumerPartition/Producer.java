@@ -1,15 +1,5 @@
-package com.java.sjq.messagequeue.kafaka.singleConsumerGroupMultiConsumer;
+package com.java.sjq.messagequeue.kafaka.assignConsumerPartition;
 
-
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
-
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 消息生产者

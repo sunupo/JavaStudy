@@ -1,166 +1,97 @@
-# [Kafka与RocketMQ区别\_kafka rocketmq区别\_Code@Z的博客-CSDN博客](https://blog.csdn.net/MrLiar17/article/details/119462424)
+> [(130条消息) kafka消息丢失原因及解决方案\_YonJ的博客-CSDN博客](https://blog.csdn.net/YoungJ_Zhou/article/details/125605128)
+> 
+> 
+# 总结：从 producer -> broker -> consumer
+## kafka
+- producer 异步提交，设置回调重试。
+- broker 设置刷盘策略。`# 设置每1000条消息刷一次盘.messages = 1000# 设置每秒刷一次盘.ms = 1000`
+- consumer 设置手动提交 offset
 
-## 一、数据可靠性
+## rocketmq
+- producer 同步提交。异步提交设置回调；
+- broker 设置同步刷盘
+- consumer 消费消息后返回 `ConsumeConcurrentlyStatus.CONSUME_SUCCESS` 或者 `ConsumeConcurrentlyStatus.CONSUME_LATER`。
 
--   RocketMQ支持异步实时刷盘，同步刷盘，同步Replication，异步Replication
--   Kafka使用异步刷盘方式，异步Replication
+# kafka
+[消息队列](https://so.csdn.net/so/search?q=%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97&spm=1001.2101.3001.7020)发送消息和消费消息的过程，共分为三段，生产过程、服务端持久化过程、消费过程，如下图所示。
 
-> 总结：[RocketMQ](https://so.csdn.net/so/search?q=RocketMQ&spm=1001.2101.3001.7020)的同步刷盘在单机可靠性上比Kafka更高，不会因为操作系统Crash，导致数据丢失。 同时同步Replication也比Kafka异步Replication更可靠，数据完全无单点。 
+![](https://img-blog.csdnimg.cn/cdc4526ec34a4ab3a857d796b7e67f69.png)
 
-## 二、性能对比
+这三个过程都有可能弄丢消息。
 
--   [Kafka单机写入TPS约在百万条/秒，消息大小10个字节](http://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines)
--   RocketMQ单机写入TPS单实例约7万条/秒，单机部署3个Broker，可以跑到最高12万条/秒，消息大小10个字节
+**面试官：** 嗯，消息丢失的具体原因是什么？怎么防止丢失消息呢？
 
-> 总结：[Kafka](https://so.csdn.net/so/search?q=Kafka&spm=1001.2101.3001.7020)的TPS跑到单机百万，主要是由于Producer端将多个小消息合并，批量发向Broker。
+**我：** 我详细说一下这种情况：
 
-RocketMQ为什么没有这么做？
+## 一、生产过程丢失消息
 
-1.  Producer使用Java语言开发，缓存过多消息，GC是个很严重的问题
-2.  Producer调用发送消息接口，消息未发送到Broker，向业务返回成功，此时Producer宕机，会导致消息丢失，业务出错。
+丢失原因：一般可能是网络故障，导致消息没有发送出去。
 
-## 三、消费失败重试
+解决方案：重发就行了。
 
--   Kafka消费失败不支持重试
--   RocketMQ消费失败支持定时重试，每次重试间隔时间顺延
-    [Consumption Retry | RocketMQ --- 消耗重试|火箭MQ](https://rocketmq.apache.org/docs/featureBehavior/10consumerretrypolicy)
-## 四、分布式事务消息
+由于[kafka](https://so.csdn.net/so/search?q=kafka&spm=1001.2101.3001.7020)为了提高性能，采用了异步发送消息。我们只有获取到发送结果，才能确保消息发送成功。 有两个方案可以获取发送结果。
 
--   Kafka不支持分布式事务消息
--   阿里云ONS支持分布式定时消息，未来开源版本的RocketMQ也有计划支持分布式事务消息
+一种是kafka把发送结果封装在Future对象中，我可以使用Future的get方法同步阻塞获取结果。
 
-## 五、Broker端消息过滤(Tag)
+```
+<RecordMetadata> future = producer.send(new ProducerRecord<>(topic, message));{cordMetadata recordMetadata = future.get(); (recordMetadata != null) {  System.out.println("发送成功");}} catch (Exception e) {.printStackTrace();}
+```
 
--   Kafka不支持Broker端的消息过滤
--   RocketMQ根据Message Tag来过滤，相当于子topic概念 
+另一种是使用kafka的callback函数获取返回结果。
 
-## 六、存储形式
+```
+er.send(new ProducerRecord<>(topic, message), new Callback() {@Overrideblic void onCompletion(RecordMetadata metadata, Exception exception) {  if (exception == null) {      System.out.println("发送成功");  } else {      System.out.println("发送失败");  }}});
+```
 
--   Kafka采用partition，每个topic的每个partition对应一个文件。顺序写入，定时刷盘。但一旦单个broker的partition过多，则顺序写将退化为随机写，Page Cache脏页过多，频繁触发缺页中断，性能大幅下降。
--   RocketMQ采用CommitLog+ConsumeQueue，单个broker所有topic在CommitLog中顺序写，Page Cache只需保持最新的页面即可。同时每个topic下的每个queue都有一个对应的ConsumeQueue文件作为索引。ConsumeQueue占用Page Cache极少，刷盘影响较小。
+如果发送失败了，有两种重试方案：
 
-## 七、延时消息
+1.  手动重试 在catch逻辑或else逻辑中，再调用一次send方法。如果还不成功怎么办？ 在数据库中建一张异常消息表，把失败消息存入表中，然后搞个异步任务重试，便于控制重试次数和间隔时间。
+2.  自动重试 kafka支持自动重试，设置参数如下，当集群Leader选举中或者Follower数量不足等原因返回失败时，就可以自动重试。
+3.  \# 设置重试次数为3  
+    retries = 3# 设置重试间隔为100msretry.backoff.ms = 100
+4.  一般我们不会用kafka自动重试，因为超过重试次数，还是会返回失败，还需要我们手动重试。
 
--   RocketMQ支持固定延时等级的延时消息，等级可配置。
--   kfaka不支持延时消息。
+## 二、服务端持久化过程丢失消息
 
-## 八、服务发现
+为了保证性能，kafka采用的是异步刷盘，当我们发送消息成功后，Broker节点在刷盘之前宕机了，就会导致消息丢失。
 
--   RocketMQ自己实现了namesrv。
--   Kafka使用ZooKeeper。
+当然我们也可以设置刷盘频率：
 
+```
+# 设置每1000条消息刷一次盘.messages = 1000# 设置每秒刷一次盘.ms = 1000
+```
 
+先普及一下[kafka集群](https://so.csdn.net/so/search?q=kafka%E9%9B%86%E7%BE%A4&spm=1001.2101.3001.7020)的架构模型：
 
---------
+kafka集群由多个broker组成，一个broker就是一个节点（机器）。 一个topic有多个partition（分区），每个partition分布在不同的broker上面，可以充分利用分布式机器性能，扩容时只需要加机器、加partition就行了。
 
-==结合下面的文章在理解上面的内容==
+![](https://img-blog.csdnimg.cn/a9f9eb19cc0a400196b3315f4c217b05.png)
 
-# [rocketMq和kafka对比\_rocketmq和kafka区别\_要争气的博客-CSDN博客](https://blog.csdn.net/liangwenmail/article/details/121542152)
+一个partition又有多个replica（副本），有一个leader replica（主副本）和多个follower replica（从副本），这样设计是为了保证数据的安全性。
 
-## 为什么在[RocketMQ](https://so.csdn.net/so/search?q=RocketMQ&spm=1001.2101.3001.7020)和kafka中选型
+发送消息和消费消息都在leader上面，follower负责定时从leader上面拉取消息，只有follower从leader上面把这条消息拉取回来，才算生产者发送消息成功。
 
-在单机同步发送的场景下，**Kafka>RocketMQ，**[Kafka](https://so.csdn.net/so/search?q=Kafka&spm=1001.2101.3001.7020)的吞吐量高达17.3w/s，RocketMQ吞吐量在11.6w/s。
+kafka为了加快持久化消息的性能，把性能较好的follower组成一个ISR列表（in-sync replica），把性能较差的follower组成一个OSR列表（out-of-sync replica），ISR+OSR=AR（assigned repllicas）。 如果某个follower一段时间没有向leader拉取消息，落后leader太多，就把它移出ISR，放到OSR之中。 如果某个follower追上了leader，又会把它重新放到ISR之中。 如果leader挂掉，就会从ISR之中选一个follower做leader。
 
-## kafka高性能原因
+![](https://img-blog.csdnimg.cn/563abcffdb7e4ddc931e59495ce25cb4.png)
 
-### **生产者**
+为了提升持久化消息性能，我们可以进行一些设置：
 
-Kafka会把收到的消息都写入到硬盘中，它绝对不会丢失数据。为了优化写入速度Kafak采用了两个技术，顺序写入和MMFile。
+```
+# 如果follower超过一秒没有向leader拉取消息，就把它移出ISR列表ca.lag.time.max.ms = 1000# 如果follower落后leader一千条消息，就把它移出ISR列表ca.lag.max.messages = 1000# 至少保证ISR中有3个follower.insync.replicas = 3# 异步消息，不需要leader确认，立即给生产者返回发送成功，丢失消息概率较大= 0# leader把消息写入本地日志中，不会等所有follower确认，就给生产者返回发送成功，小概率丢失消息= 1# leader需要所有ISR中follower确认，才给生产者返回发送成功，不会丢失消息= -1 或者 asks = all
+```
 
-#### **顺序写入**
+## 三、消费过程丢失消息
 
-因为硬盘是机械结构，每次读写都会寻址->写入，其中寻址是一个“机械动作”，它是最耗时的。所以硬盘最“讨厌”随机I/O，最喜欢顺序I/O。为了提高读写硬盘的速度，Kafka就是使用顺序I/O。
+kafka中有个offset的概念，consumer从partition中拉取消息，consumer本地处理完成后需要commit一下offset，表示消费完成，下次就不会再拉取到这条消息。  
+所以我们需要关闭自动commit offset的配置，防止consumer拉到消息后，服务宕机，导致消息丢失。
 
-收到消息后Kafka会把数据插入到文件末尾。这种方法有一个缺陷——没有办法删除数据，所以Kafka是不会删除数据的，它会把所有的数据都保留下来，每个消费者（Consumer）对每个Topic都有一个offset用来表示读取到了第几条数据。
+```
+enable.auto.commit = false
+```
 
-#### **Memory Mapped Files**
+**面试官：** 还得是你，就你总结的全，我都想不那么全，明天来上班吧，薪资double。
 
-Kafka的数据并不是实时的写入硬盘，它充分利用了现代操作系统分页存储来利用内存提高I/O效率。
+## 本文知识点总结：
 
-Memory Mapped Files也被翻译成内存映射文件，在64位操作系统中一般可以表示20G的数据文件，它的工作原理是直接利用操作系统的Page来实现文件到物理内存的直接映射。完成映射之后你对物理内存的操作会被同步到硬盘上（操作系统在适当的时候）。
-
-这种方法也有一个很明显的缺陷——不可靠，写到mmap中的数据并没有被真正的写到硬盘，操作系统会在程序主动调用flush的时候才把数据真正的写到硬盘。Kafka提供了一个参数——producer.type来控制是不是主动flush，如果Kafka写入到mmap之后就立即flush然后再返回Producer叫同步(sync)；写入mmap之后立即返回Producer不调用flush叫异步(async)。
-
-### 消费者
-
-#### **zero copy**
-
-传统read/write方式进行网络文件传输的方式，文件数据实际上是经过了四次copy操作：
-
-硬盘—>内核buf—>用户buf—>socket相关缓冲区—>协议引擎
-
-kafka基于sendfile实现Zero Copy，直接从内核空间（DMA的）到内核空间（Socket的），然后发送网卡。
-
-#### **批量压缩**
-
-在很多情况下，系统的瓶颈不是CPU或磁盘，而是网络IO。进行数据压缩会消耗少量的CPU资源，不过对于kafka而言，网络IO更应该需要考虑。
-
-Kafka使用了批量压缩，即将多个消息一起压缩而不是单个消息压缩。
-
-Kafka允许使用递归的消息集合，批量的消息可以通过压缩的形式传输并且在日志中也可以保持压缩格式，直到被消费者解压缩。
-
-Kafka支持多种压缩协议，包括Gzip和Snappy压缩协议。
-
-## rocketMq高性能原因
-
-### 生产者
-
-#### **顺序写入**
-
-消息存储是由ConsumeQueue和CommitLog配合完成的。一个Topic里面有多个MessageQueue，每个MessageQueue对应一个ConsumeQueue。
-
-**ConsumeQueue**里记录着消息物理存储地址。
-
-**CommitLog**就存储文件具体的字节信息。文件大小默认1g，文件名称20位数，左边补0右边为偏移量。消息顺序写入文件，文件满了则写入下一个文件。
-
-### 消费者
-
-#### **随机读**
-
-每次读消息时先读逻辑队列consumQue中的元数据，再从commitlog中找到消息体。但是入口处rocketmq采用package机制，可以批量地从磁盘读取，作为cache存到内存中，加速后续的读取速度。
-
-随机读具体流程
-
--   Consumer每20s重新做一次负载均衡更新，根据从Broker存储的ConsumerGroup和Topic信息，把MessageQueue分发给不同的Consumer，负载策略默认是分页
--   **每个MessageQueue对应一个pullRequest，全部存储到该Consumer的pullRequestQueue队列里面**
--   Consumer启动独立后台PullMessageService线程，不停的尝试从pullRequestQueue.take()获取PullRequest
--   捞取到PullRequest会先做缓存校验（默认一个Queue里面缓存待处理消息个数不超过1000个，消息大小不超过100M，否则会延迟50ms再重试），从而保证客户端的缓存负载不会过高
--   **PullRequest发送给Broker，如果Broker发现该Queue有待处理的消息，就会直接返回给Consumer，Consumer接收响应以后，重新把该PullRequest丢到自己的pullRequestQueue队列里面,从而重复执行捞取消息的动作，保证消息的及时性**
--   **PullRequest发送给Broker，如果Broker发现该Queue没有待处理的消息，则会Hold住这个请求，暂不响应给Consumer，默认长轮询是5s重试获取一次待处理消息，如果有新的待处理消息则立刻Response给Consumer，当客户端检测到消息挂起超时（客户端有默认参数 响应超时时间 20s），会重新发起PullRequest给Broker**
-
-**消费模型**
-
-常见消费模型有以下几种：
-
-**push**：producer发送消息后，broker马上把消息投递给consumer。这种方式好在实时性比较高，但是会增加broker的负载；而且消费端能力不同，如果push推送过快，消费端会出现很多问题。  
-**pull**：producer发送消息后，broker什么也不做，等着consumer自己来读取。它的优点在于主动权在消费者端，可控性好；但是间隔时间不好设置，间隔太短浪费资源，间隔太长又会消费不及时。  
-**长轮询**：当consumer过来请求时，broker会保持当前连接一段时间 默认15s,如果这段时间内有消息到达，则立刻返回给consumer；15s没消息的话则返回空然后重新请求。这种方式的缺点就是服务端要保存consumer状态，客户端过多会一直占用资源。
-
-**RocketMQ默认**是采用pushConsumer方式消费的，从概念上来说是推送给消费者，它的==本质是pull+长轮询==。这样既通过长轮询达到了push的实时性，又有了pull的可控性。系统收到消息后会自动处理消息和offset(消息偏移量)，如果期间有新的consumer加入会自动做负载均衡(集群模式下offset存在broker中; 广播模式下offset存在consumer里)。当然我们也可以设置为pullConsumer模式，这样灵活性会提高，但是代码却会很复杂，需要手动维护offset，消息存储和状态。
-
-**zero copy**
-
-零拷贝技术有mmap及sendfile，sendfile大文件传输快，mmap小文件传输快。MMQ发送的消息通常都很小，rocketmq就是以mmap+write方式实现的。
-
-## 为什么kafka比RocketMQ[吞吐量](https://so.csdn.net/so/search?q=%E5%90%9E%E5%90%90%E9%87%8F&spm=1001.2101.3001.7020)更高
-
-kafka性吞吐量更高主要是由于Producer端将多个小消息合并，批量发向Broker。kafka采用异步发送的机制，当发送一条消息时，消息并没有发送到broker而是缓存起来，然后直接向业务返回成功，当缓存的消息达到一定数量时再批量发送。
-
-此时减少了网络io，从而提高了消息发送的性能，但是如果消息发送者宕机，会导致消息丢失，业务出错，所以理论上kafka利用此机制提高了io性能却降低了可靠性。
-
-## RocketMQ为何无法使用同样的方式
-
--   RocketMQ通常使用的Java语言，缓存过多消息会导致频繁GC。
--   Producer调用发送消息接口，消息未发送到Broker，向业务返回成功，此时Producer宕机，会导致消息丢失，业务出错。
--   Producer通常为分布式系统，且每台机器都是多线程发送，我们认为线上的系统单个Producer每秒产生的数据量有限，不可能上万。
--   缓存的功能完全可以由上层业务完成。
-
-## 为什么选择RocketMQ
-
-当broker里面的topic的partition数量过多时，kafka的性能却不如rocketMq。
-
-kafka和rocketMq都使用文件存储，但是kafka是一个分区一个文件，当topic过多，分区的总量也会增加，kafka中存在过多的文件，当对消息刷盘时，就会出现文件竞争磁盘，出现性能的下降。一个partition（分区）一个文件，顺序读写。一个分区只能被一个消费组中的一个 消费线程进行消费，因此可以同时消费的消费端也比较少。
-
-rocketMq所有的队列都存储在一个文件中，每个队列的存储的消息量也比较小，因此topic的增加对rocketMq的性能的影响较小。rocketMq可以存在的topic比较多，可以适应比较复杂的业务。
-
-# [为什么选择RocketMQ | RocketMQ](https://rocketmq.apache.org/zh/docs/4.x/#rocketmq-vs-activemq-vs-kafka)
+![](https://img-blog.csdnimg.cn/816f646a17f44a26b18d14b1f175fb06.png)
